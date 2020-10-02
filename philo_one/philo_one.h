@@ -14,8 +14,10 @@
 # define PHILO_ONE_H
 
 # include <unistd.h>
+# include <stdlib.h>
 # include <pthread.h>
 # include <string.h>
+# include "philosopher.h"
 
 typedef struct	s_args
 {
@@ -29,5 +31,13 @@ typedef struct	s_args
 void	print_help();
 int		set_arg(t_args *arg, int argc, char **argv);
 int		main_thread(t_args *arg);
+
+int		initialization(t_philosopher **party, t_args *arg,
+					suseconds_t *simulation);
+
+
+void	phil_say(t_philosopher *self, char *phrase, suseconds_t ts);
+void	phil_sleep(t_philosopher *self);
+void	phil_eat(t_philosopher *self);
 
 #endif

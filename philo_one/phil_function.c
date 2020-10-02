@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_thread.c                                      :+:      :+:    :+:   */
+/*   phil_function.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/02 15:15:21 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/02 15:15:22 by matrus           ###   ########.fr       */
+/*   Created: 2020/10/02 18:46:40 by matrus            #+#    #+#             */
+/*   Updated: 2020/10/02 18:46:42 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
-#include "philosopher.h"
 
-//
-#include <stdio.h>
-
-int			main_thread(t_args *arg)
+void	phil_eat(t_philosopher *self)
 {
-	t_philosopher	**party;
-	suseconds_t		simulation;
+	usleep(self->time_eat);
+}
 
-	simulation = 0;
-	if (initialization(party, arg, &simulation))
-		return (1);
+void	phil_sleep(t_philosopher *self)
+{
+	usleep(self->time_sleep);
+}
 
-
-	return (0);
+void	phil_say(t_philosopher *self, char *phrase, suseconds_t ts)
+{
+	write(1, "say smth!\n", 10);
 }
