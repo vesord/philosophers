@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_one.c                                        :+:      :+:    :+:   */
+/*   main_thread.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/02 14:31:24 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/02 14:31:35 by matrus           ###   ########.fr       */
+/*   Created: 2020/10/02 15:15:21 by matrus            #+#    #+#             */
+/*   Updated: 2020/10/02 15:15:22 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-int	main(int argc, char **argv)
-{
-	t_args	arg;
+//
+#include <stdio.h>
 
-	memset(&arg, 0, sizeof(t_args));
-	if (argc < 5 || argc > 6)
-	{
-		write(2, "Error. Wrong arguments.\n", 24);
-		print_help();
-		return (1);
-	}
-	else if (set_arg(&arg, argc, argv))
-	{
-		write(2, "Error. Wrong arguments.\n", 24);
-		print_help();
-		return (1);
-	}
-	else if (main_thread(&arg))
-	{
-		write(2, "Error. Something in threading went wrong. :(\n", 45);
-		return (1);
-	}
+int		main_thread(t_args *arg)
+{
+	printf("philos: %i\n", arg->philos);
+	printf("time to die: %i\n", arg->time_die);
+	printf("time to eat: %i\n", arg->time_eat);
+	printf("time to sleep: %i\n", arg->time_sleep);
+	printf("eat count: %i\n", arg->eat_count);
 	return (0);
 }
