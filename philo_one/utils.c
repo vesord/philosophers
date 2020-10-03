@@ -17,12 +17,12 @@ void	print_help()
 	write(1, "don't forget about help!:)\n", 27);
 }
 
-useconds_t	get_timestamp()
+time_t get_timestamp()
 {
 	struct timeval t;
 
 	gettimeofday(&t, NULL);
-	return (t.tv_usec);
+	return (t.tv_sec * 1000000 + t.tv_usec);
 }
 
 void		ft_putchar(char c)

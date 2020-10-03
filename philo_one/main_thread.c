@@ -25,14 +25,11 @@ int			clear_restaurant(t_philosopher **party, int count)
 	join_status = 0;
 	while (i < count)
 	{
-		status = pthread_join(party[i]->thread_id, (void **) &join_status);
-		printf("joining %i, status = %i, i = %i, threadID = %i\n", party[i]->num, status, i, (int)party[i]->thread_id);
-		if (status == 0 || status == 3)
-		{
-			if (join_status)
-				return (1);
-			i++;
-		}
+		write(1, "|", 1);
+		printf("joining i = %i ", i);
+		status = pthread_join(party[i]->thread_id, NULL);
+		printf("status %i\n", status);
+		i++;
 	}
 	// close mutexes and free here
 	return (0);
@@ -41,21 +38,23 @@ int			clear_restaurant(t_philosopher **party, int count)
 int			main_thread(t_args *arg)
 {
 	t_philosopher	**party;
-	suseconds_t		simulation;
+	time_t			simulation;
 	int				i;
 
 	simulation = 0;
 	party = NULL;
-	if (initialization(&party, arg, &simulation))
+	if (!(party = initialization(arg, &simulation)))
 		return (1);
 	i = -1;
 	while (++i < arg->philos)
-		if (pthread_create(&(party[i]->thread_id), NULL, philo_thread, party[i]))
+		if (pthread_create(&(party[i]->thread_id), NULL, philo_thread, party[i])
+		|| pthread_create(&(party[i]->thread_id_die), NULL, time_to_death, party[i]))
 			return (1);
+
 	simulation = get_timestamp();
-//
-	write(1, "simulation started!\n", 20);
+
 	while (simulation)
 		;
 	return (clear_restaurant(party, arg->philos));
+	return (0);
 }

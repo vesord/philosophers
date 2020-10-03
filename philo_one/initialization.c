@@ -13,7 +13,7 @@
 #include "philo_one.h"
 
 static t_philosopher	*philosopher_init(t_args *arg, int i,
-					pthread_mutex_t *mutexes, suseconds_t *simulation)
+					pthread_mutex_t *mutexes, time_t *simulation)
 {
 	t_philosopher *kant;
 
@@ -32,8 +32,11 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	kant->say = phil_say;
 	kant->take_fork = phil_take_fork;
 	kant->drop_forks = phil_drop_forks;
-	kant->l_fork = &mutexes[i];
-	kant->r_fork = &mutexes[i + 1];
+	kant->l_fork = &(mutexes[i]);
+	if (i + 1 == arg->philos)
+		kant->r_fork = &(mutexes[0]);
+	else
+		kant->r_fork = &(mutexes[i + 1]);
 	return (kant);
 }
 
@@ -49,21 +52,16 @@ static int	phil_mutex_init(pthread_mutex_t *mutexes, int mutexes_count)
 }
 
 static int	party_init(t_philosopher **party, t_args *arg,
-					suseconds_t *simulation)
+					time_t *simulation)
 {
 	pthread_mutex_t	*mutexes;
 	int				i;
 
 	if (!(mutexes = (pthread_mutex_t*)malloc(
-		sizeof(pthread_mutex_t) * (arg->philos + 1))))
+		sizeof(pthread_mutex_t) * arg->philos)))
 		return (1);
-	if (phil_mutex_init(mutexes, arg->philos + 1))
+	if (phil_mutex_init(mutexes, arg->philos))
 		return (1);
-	i = -1;
-	while (++i < arg->philos)
-		if (pthread_mutex_init(&mutexes[i], NULL))
-			return (1);
-	mutexes[i] = mutexes[0];
 	i = -1;
 	while (++i < arg->philos)
 		if (!(party[i] = philosopher_init(arg, i, mutexes, simulation)))
@@ -71,11 +69,13 @@ static int	party_init(t_philosopher **party, t_args *arg,
 	return (0);
 }
 
-int	initialization(t_philosopher ***party, t_args *arg, suseconds_t *simulation)
+t_philosopher	**initialization(t_args *arg, time_t *simulation)
 {
-	if (!(*party = (t_philosopher**)malloc(sizeof(t_philosopher*) * arg->philos)))
-		return (1);
-	if (party_init(*party, arg, simulation))
-		return (1);
-	return (0);
+	t_philosopher **party;
+
+	if (!(party = (t_philosopher**)malloc(sizeof(t_philosopher*) * arg->philos)))
+		return (NULL);
+	if (party_init(party, arg, simulation))
+		return (NULL);
+	return (party);
 }

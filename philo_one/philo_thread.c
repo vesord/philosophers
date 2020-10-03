@@ -11,36 +11,30 @@
 /* ************************************************************************** */
 
 #include "philo_one.h"
+//
+#include <stdio.h>
 
-static void	*time_to_death(void *arg)
+void	*time_to_death(void *arg)
 {
 	t_philosopher	*seneca;
 
 	seneca = (t_philosopher*)arg;
+	while (!*seneca->simulation)
+		;
+	seneca->last_eat_time = *seneca->simulation;
 	while (*seneca->simulation)
 	{
-		if (seneca->last_eat_time - *seneca->simulation >= seneca->time_to_die)
+		if (get_timestamp() - seneca->last_eat_time  >= seneca->time_to_die)
 		{
 			*seneca->simulation = 0;
 			seneca->say(seneca, SAY_DEAD, get_timestamp());
+			seneca->drop_forks(seneca);
+			write(1, "i dropped forks!\n", 17);
 		}
 	}
-	pthread_detach(seneca->thread_id_die);
+	//pthread_detach(seneca->thread_id_die);
 	return (0);
 }
-
-static int	timer_to_death_create(t_philosopher *platon)
-{
-	if (pthread_create(&platon->thread_id_die, NULL, time_to_death, platon))
-	{
-		*platon->simulation = 0;
-		return (1);
-	}
-	return (0);
-}
-
-//
-#include <stdio.h>
 
 void		*philo_thread(void *arg)
 {
@@ -49,8 +43,9 @@ void		*philo_thread(void *arg)
 	dekart = (t_philosopher*)arg;
 	while (!*dekart->simulation)
 		;
-	if (timer_to_death_create(dekart))
-		return ((void *)1);
+//	if (dekart->num == 2)
+//		write(1, "2 started!\n", 11);
+	write(1, (dekart->num == 2) ? "!!!2!!!" : "!!!1!!!", 7);
 	while (*dekart->simulation)
 	{
 		dekart->take_fork(dekart, FORK_LEFT);
@@ -64,6 +59,9 @@ void		*philo_thread(void *arg)
 		dekart->sleep(dekart);
 		dekart->say(dekart, SAY_THINK, get_timestamp());
 	}
+	if (dekart->num == 2)
+		write(1, "2 about to drop!\n", 17);
 	dekart->drop_forks(dekart);
+	pthread_join(dekart->thread_id_die, NULL);
 	return (0);
 }

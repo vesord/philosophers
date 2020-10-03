@@ -21,7 +21,7 @@ const char	*g_phrases[] =
 		"died"
 	};
 
-void phil_eat(t_philosopher *self, useconds_t ts)
+void phil_eat(t_philosopher *self, time_t ts)
 {
 	if (!*self->simulation)
 		return ;
@@ -36,7 +36,7 @@ void	phil_sleep(t_philosopher *self)
 	usleep(self->time_sleep);
 }
 
-void	phil_say(t_philosopher *self, enum e_phrases what, suseconds_t ts)
+void	phil_say(t_philosopher *self, enum e_phrases what, time_t ts)
 {
 	static pthread_mutex_t	write_mutex;
 	static int				is_mutex_inited;
@@ -50,6 +50,11 @@ void	phil_say(t_philosopher *self, enum e_phrases what, suseconds_t ts)
 		is_mutex_inited++;
 	}
 	pthread_mutex_lock(&write_mutex);
+	if (!*self->simulation && what != SAY_DEAD)
+	{
+		pthread_mutex_unlock(&write_mutex);
+		return ;
+	}
 	ft_putunbr(ts);
 	write(1, " ", 1);
 	ft_putunbr(self->num);

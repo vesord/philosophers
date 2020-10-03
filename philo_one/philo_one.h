@@ -44,14 +44,14 @@ typedef struct	s_philosopher
 	int				time_sleep;
 	int				time_to_die;
 
-	suseconds_t		*simulation;
-	int				last_eat_time;
+	time_t			*simulation;
+	time_t			last_eat_time;
 	int				is_dead;
 	int				count_eat; // add count eat check
-	void			(*eat)(struct s_philosopher *self, useconds_t ts);
+	void			(*eat)(struct s_philosopher *self, time_t ts);
 	void			(*sleep)(struct  s_philosopher *self);
 	void			(*say)(struct s_philosopher *self, enum e_phrases phrase,
-						   suseconds_t ts);
+						   time_t ts);
 	void			(*take_fork)(struct s_philosopher *self, enum e_forks frk);
 	void			(*drop_forks)(struct s_philosopher *self);
 	pthread_mutex_t	*l_fork;
@@ -72,19 +72,20 @@ int		set_arg(t_args *arg, int argc, char **argv);
 
 int		main_thread(t_args *arg);
 
-int		initialization(t_philosopher ***party, t_args *arg,
-						  suseconds_t *simulation);
+t_philosopher	**initialization(t_args *arg,
+						  time_t *simulation);
 
-void	phil_say(t_philosopher *self, enum e_phrases what, suseconds_t ts);
+void	phil_say(t_philosopher *self, enum e_phrases what, time_t ts);
 void	phil_sleep(t_philosopher *self);
-void	phil_eat(t_philosopher *self, useconds_t ts);
+void	phil_eat(t_philosopher *self, time_t ts);
 void	phil_take_fork(t_philosopher *self, enum e_forks frk);
 void	phil_drop_forks(t_philosopher *self);
 
 void	*philo_thread(void *arg);
+void	*time_to_death(void *arg);
 
 void		print_help();
-useconds_t	get_timestamp();
+time_t		get_timestamp();
 void		ft_putchar(char c);
 void		ft_putunbr(unsigned long n);
 void		ft_putstrln(const char *str);
