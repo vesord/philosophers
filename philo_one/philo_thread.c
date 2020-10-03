@@ -15,33 +15,39 @@
 static void	*time_to_death(void *arg)
 {
 	t_philosopher	*seneca;
-	useconds_t 		time;
 
 	seneca = (t_philosopher*)arg;
 	while (*seneca->simulation)
 	{
-		if ((time = get_timestamp()) - *seneca->simulation >= seneca->time_to_die)
+		if (seneca->last_eat_time - *seneca->simulation >= seneca->time_to_die)
 		{
 			*seneca->simulation = 0;
-			seneca->say(seneca, SAY_DEAD, time);
+			seneca->say(seneca, SAY_DEAD, get_timestamp());
 		}
 	}
 	pthread_detach(seneca->thread_id);
 	return (0);
 }
 
+static int	timer_to_death_create(t_philosopher *platon)
+{
+	if (pthread_create(&platon->thread_id_die, NULL, time_to_death, NULL))
+	{
+		*platon->simulation = 0;
+		return (1);
+	}
+	return (0);
+}
+
 void		*philo_thread(void *arg)
 {
-	t_philosopher *dekart;
+	t_philosopher	*dekart;
 
 	dekart = (t_philosopher*)arg;
 	while (!*dekart->simulation)
 		;
-	if (pthread_create(&dekart->thread_id_die, NULL, time_to_death, NULL))
-	{
-		*dekart->simulation = 0;
+	if (timer_to_death_create(dekart))
 		return ((void *)1);
-	}
 	while (*dekart->simulation)
 	{
 		dekart->take_fork(dekart, FORK_LEFT);
@@ -49,7 +55,7 @@ void		*philo_thread(void *arg)
 		dekart->take_fork(dekart, FORK_RIGHT);
 		dekart->say(dekart, SAY_TOOK_FORK, get_timestamp());
 		dekart->say(dekart, SAY_EAT, get_timestamp());
-		dekart->eat(dekart);
+		dekart->eat(dekart, get_timestamp());
 		dekart->drop_forks(dekart);
 		dekart->say(dekart, SAY_SLEEP, get_timestamp());
 		dekart->sleep(dekart);

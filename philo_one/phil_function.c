@@ -12,10 +12,20 @@
 
 #include "philo_one.h"
 
-void	phil_eat(t_philosopher *self)
+const char	*g_phrases[] =
+	{
+		"has taken a fork",
+		"is eating",
+		"is sleeping",
+		"is thinking",
+		"died"
+	};
+
+void phil_eat(t_philosopher *self, useconds_t ts)
 {
 	if (!*self->simulation)
 		return ;
+	self->last_eat_time = ts;
 	usleep(self->time_eat);
 }
 
@@ -28,9 +38,24 @@ void	phil_sleep(t_philosopher *self)
 
 void	phil_say(t_philosopher *self, enum e_phrases what, suseconds_t ts)
 {
+	static pthread_mutex_t	write_mutex;
+	static int				is_mutex_inited;
+
 	if (!*self->simulation && what != SAY_DEAD)
 		return ;
-	write(1, "say smth!\n", 10);
+	if (!is_mutex_inited)
+	{
+		if (pthread_mutex_init(&write_mutex, NULL))
+			*self->simulation = 0;
+		is_mutex_inited++;
+	}
+	pthread_mutex_lock(&write_mutex);
+	ft_putunbr(ts);
+	write(1, " ", 1);
+	ft_putunbr(self->num);
+	write(1, " ", 1);
+	ft_putstrln(g_phrases[what]);
+	pthread_mutex_unlock(&write_mutex);
 }
 
 void	phil_take_fork(t_philosopher *self, enum e_forks frk)

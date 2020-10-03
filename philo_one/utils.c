@@ -24,3 +24,26 @@ useconds_t	get_timestamp()
 	gettimeofday(&t, NULL);
 	return (t.tv_usec);
 }
+
+void		ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void		ft_putunbr(unsigned long n)
+{
+	if (n > 9)
+		ft_putunbr(n / 10);
+	ft_putchar(n % 10 + '0');
+}
+
+void		ft_putstrln(const char *str)
+{
+	const char *beg;
+
+	beg = str;
+	while (*str)
+		str++;
+	write(1, beg, str - beg);
+	ft_putchar('\n');
+}

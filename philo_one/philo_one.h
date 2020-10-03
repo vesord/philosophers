@@ -40,7 +40,6 @@ typedef struct	s_philosopher
 	pthread_t		thread_id_die;
 	int				num;
 
-
 	int				time_eat;
 	int				time_sleep;
 	int				time_to_die;
@@ -49,7 +48,7 @@ typedef struct	s_philosopher
 	int				last_eat_time;
 	int				is_dead;
 	int				count_eat;
-	void			(*eat)(struct s_philosopher *self);
+	void			(*eat)(struct s_philosopher *self, useconds_t ts);
 	void			(*sleep)(struct  s_philosopher *self);
 	void			(*say)(struct s_philosopher *self, enum e_phrases phrase,
 						   suseconds_t ts);
@@ -68,7 +67,7 @@ typedef struct	s_args
 	int		eat_count;
 }				t_args;
 
-void	print_help();
+
 int		set_arg(t_args *arg, int argc, char **argv);
 
 int		main_thread(t_args *arg);
@@ -78,12 +77,17 @@ int		initialization(t_philosopher **party, t_args *arg,
 
 void	phil_say(t_philosopher *self, enum e_phrases what, suseconds_t ts);
 void	phil_sleep(t_philosopher *self);
-void	phil_eat(t_philosopher *self);
+void	phil_eat(t_philosopher *self, useconds_t ts);
 void	phil_take_fork(t_philosopher *self, enum e_forks frk);
 void	phil_drop_forks(t_philosopher *self);
 
 void	*philo_thread(void *arg);
 
+void		print_help();
 useconds_t	get_timestamp();
+void		ft_putchar(char c);
+void		ft_putunbr(unsigned long n);
+void		ft_putstrln(const char *str);
+
 
 #endif
