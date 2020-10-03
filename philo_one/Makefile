@@ -1,16 +1,28 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: matrus <marvin@42.fr>                      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/10/03 13:49:59 by matrus            #+#    #+#              #
+#    Updated: 2020/10/03 13:50:00 by matrus           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = philo_one
 
-INCLUDES = philo_one.h philosopher.h 
+INCLUDES = philo_one.h
 
 SRCS = 	initialization.c main_thread.c phil_function.c \
-		philo_one.c set_arg.c utils.c
+		philo_one.c set_arg.c utils.c philo_thread.c
 
 OBJDIR = ./obj
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 
 CC = gcc
-#FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 .PHONY: all
 all: $(OBJDIR) $(NAME)

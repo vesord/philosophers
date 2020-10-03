@@ -71,11 +71,11 @@ static int	party_init(t_philosopher **party, t_args *arg,
 	return (0);
 }
 
-int	initialization(t_philosopher **party, t_args *arg, suseconds_t *simulation)
+int	initialization(t_philosopher ***party, t_args *arg, suseconds_t *simulation)
 {
-	if (!(party = (t_philosopher**)malloc(sizeof(t_philosopher*) * arg->philos)))
+	if (!(*party = (t_philosopher**)malloc(sizeof(t_philosopher*) * arg->philos)))
 		return (1);
-	if (party_init(party, arg, simulation))
+	if (party_init(*party, arg, simulation))
 		return (1);
 	return (0);
 }

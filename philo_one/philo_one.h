@@ -47,7 +47,7 @@ typedef struct	s_philosopher
 	suseconds_t		*simulation;
 	int				last_eat_time;
 	int				is_dead;
-	int				count_eat;
+	int				count_eat; // add count eat check
 	void			(*eat)(struct s_philosopher *self, useconds_t ts);
 	void			(*sleep)(struct  s_philosopher *self);
 	void			(*say)(struct s_philosopher *self, enum e_phrases phrase,
@@ -72,8 +72,8 @@ int		set_arg(t_args *arg, int argc, char **argv);
 
 int		main_thread(t_args *arg);
 
-int		initialization(t_philosopher **party, t_args *arg,
-					suseconds_t *simulation);
+int		initialization(t_philosopher ***party, t_args *arg,
+						  suseconds_t *simulation);
 
 void	phil_say(t_philosopher *self, enum e_phrases what, suseconds_t ts);
 void	phil_sleep(t_philosopher *self);

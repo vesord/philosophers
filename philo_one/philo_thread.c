@@ -25,19 +25,22 @@ static void	*time_to_death(void *arg)
 			seneca->say(seneca, SAY_DEAD, get_timestamp());
 		}
 	}
-	pthread_detach(seneca->thread_id);
+	pthread_detach(seneca->thread_id_die);
 	return (0);
 }
 
 static int	timer_to_death_create(t_philosopher *platon)
 {
-	if (pthread_create(&platon->thread_id_die, NULL, time_to_death, NULL))
+	if (pthread_create(&platon->thread_id_die, NULL, time_to_death, platon))
 	{
 		*platon->simulation = 0;
 		return (1);
 	}
 	return (0);
 }
+
+//
+#include <stdio.h>
 
 void		*philo_thread(void *arg)
 {
