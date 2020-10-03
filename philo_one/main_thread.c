@@ -11,19 +11,21 @@
 /* ************************************************************************** */
 
 #include "philo_one.h"
-#include "philosopher.h"
-
-//
-#include <stdio.h>
 
 int			main_thread(t_args *arg)
 {
 	t_philosopher	**party;
 	suseconds_t		simulation;
+	int				i;
 
 	simulation = 0;
 	if (initialization(party, arg, &simulation))
 		return (1);
+	i = -1;
+	while (++i)
+		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, &party[i]))
+			return (1);
+
 
 
 	return (0);

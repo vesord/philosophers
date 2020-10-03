@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo_one.h"
-#include "philosopher.h"
 
 void	*philo_thread(void *arg)
 {
@@ -23,14 +22,14 @@ void	*philo_thread(void *arg)
 	// Here we should start life thread
 	while (dekart->simulation)
 	{
-		dekart->take_fork(dekart, "left");
-		dekart->say(dekart, "took fork!", get_timestamp());
-		dekart->take_fork(dekart, "right");
-		dekart->say(dekart, "took fork!", get_timestamp());
-		dekart->say(dekart, "eating", get_timestamp());
+		dekart->take_fork(dekart, FORK_LEFT);
+		dekart->say(dekart, SAY_TOOK_FORK, get_timestamp());
+		dekart->take_fork(dekart, FORK_RIGHT);
+		dekart->say(dekart, SAY_TOOK_FORK, get_timestamp());
+		dekart->say(dekart, SAY_EAT, get_timestamp());
 		dekart->eat(dekart);
-		dekart->say(dekart, "sleeping", get_timestamp());
+		dekart->say(dekart, SAY_SLEEP, get_timestamp());
 		dekart->sleep(dekart);
-		dekart->say(dekart, "thinking", get_timestamp());
+		dekart->say(dekart, SAY_THINK, get_timestamp());
 	}
 }

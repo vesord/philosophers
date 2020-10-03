@@ -22,7 +22,15 @@ void	phil_sleep(t_philosopher *self)
 	usleep(self->time_sleep);
 }
 
-void	phil_say(t_philosopher *self, char *phrase, suseconds_t ts)
+void	phil_say(t_philosopher *self, enum e_phrases what, suseconds_t ts)
 {
 	write(1, "say smth!\n", 10);
+}
+
+void	phil_take_fork(t_philosopher *self, enum e_forks frk)
+{
+	if (frk == FORK_LEFT)
+		pthread_mutex_lock(self->l_fork);
+	else if (frk == FORK_RIGHT)
+		pthread_mutex_lock(self->r_fork);
 }
