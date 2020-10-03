@@ -31,6 +31,7 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	kant->sleep = phil_sleep;
 	kant->say = phil_say;
 	kant->take_fork = phil_take_fork;
+	kant->drop_forks = phil_drop_forks;
 	kant->l_fork = &mutexes[i];
 	kant->r_fork = &mutexes[i + 1];
 	return (kant);

@@ -25,7 +25,10 @@ int			main_thread(t_args *arg)
 	while (++i)
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, &party[i]))
 			return (1);
-
+	simulation = get_timestamp();
+	while (simulation)
+		;
+	//Join all the threads and check if error occur;
 
 
 	return (0);

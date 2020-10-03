@@ -14,10 +14,13 @@
 
 void	print_help()
 {
-	;
+	write(1, "don't forget about help!:)\n", 27);
 }
 
 useconds_t	get_timestamp()
 {
-	;
+	struct timeval t;
+
+	gettimeofday(&t, NULL);
+	return (t.tv_usec);
 }

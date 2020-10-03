@@ -37,7 +37,10 @@ enum	e_phrases
 typedef struct	s_philosopher
 {
 	pthread_t		thread_id;
+	pthread_t		thread_id_die;
 	int				num;
+
+
 	int				time_eat;
 	int				time_sleep;
 	int				time_to_die;
@@ -51,6 +54,7 @@ typedef struct	s_philosopher
 	void			(*say)(struct s_philosopher *self, enum e_phrases phrase,
 						   suseconds_t ts);
 	void			(*take_fork)(struct s_philosopher *self, enum e_forks frk);
+	void			(*drop_forks)(struct s_philosopher *self);
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 }				t_philosopher;
@@ -76,6 +80,7 @@ void	phil_say(t_philosopher *self, enum e_phrases what, suseconds_t ts);
 void	phil_sleep(t_philosopher *self);
 void	phil_eat(t_philosopher *self);
 void	phil_take_fork(t_philosopher *self, enum e_forks frk);
+void	phil_drop_forks(t_philosopher *self);
 
 void	*philo_thread(void *arg);
 
