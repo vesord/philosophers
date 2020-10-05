@@ -82,7 +82,7 @@ void	phil_take_fork(t_philosopher *self, enum e_forks frk);
 void	phil_drop_forks(t_philosopher *self);
 
 void	*philo_thread(void *arg);
-void	*time_to_death(void *arg);
+//void	*time_to_death(void *arg);
 
 void		print_help();
 time_t		get_timestamp();

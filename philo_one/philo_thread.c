@@ -49,7 +49,7 @@ void		*philo_thread(void *arg)
 
 	dekart = (t_philosopher*)arg;
 	dekart->last_eat_time = get_timestamp();
-	while (!dekart->is_dead)
+	while (*dekart->simulation)
 	{
 		dekart->take_fork(dekart, FORK_LEFT);
 		dekart->say(dekart, SAY_TOOK_FORK, get_timestamp());
