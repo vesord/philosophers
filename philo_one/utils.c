@@ -25,6 +25,63 @@ time_t get_timestamp()
 	return (t.tv_sec * 1000000 + t.tv_usec);
 }
 
+int	ft_ilen(int nb)
+{
+	if (nb < 0)
+	{
+		if (nb > -10)
+			return (2);
+		else
+			return (ft_ilen(nb / 10 * -1) + 2);
+	}
+	if (nb < 10)
+		return (1);
+	return (ft_ilen(nb / 10) + 1);
+}
+
+static long	ft_pow(long a, long n)
+{
+	long i;
+	long res;
+
+	i = -1;
+	res = 1;
+	while (++i < n)
+		res *= a;
+	return (res);
+}
+
+int			ft_strlen(char *str)
+{
+	char *beg;
+
+	beg = str;
+	while (*str)
+		str++;
+	return ((int)(str - beg));
+}
+
+void	form_say_string(char *dst, time_t ts, int num, const char *phrase)
+{
+	int i;
+	int num_len;
+
+	i = -1;
+	while (++i < 13)
+		dst[i] = (ts / ft_pow(10, 12 - i)) % 10 + '0';
+	dst[i] = ' ';
+	num_len = ft_ilen(num);
+	while (-14 + ++i < num_len)
+		dst[i] = (num / ft_pow(10, 13 + num_len - i)) % 10 + '0';
+	dst[i] = ' ';
+	while (*phrase)
+		dst[++i] = *phrase++;
+	dst[i + 1] = '\n';
+}
+
+
+
+
 void		ft_putchar(char c)
 {
 	write(1, &c, 1);

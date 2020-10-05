@@ -18,18 +18,18 @@
 int			clear_restaurant(t_philosopher **party, int count)
 {
 	int	i;
-	int	join_status;
 	int status;
 
+	i = -1;
+	while (++i < count)
+		pthread_mutex_unlock(party[i]->l_fork);
 	i = 0;
-	join_status = 0;
 	while (i < count)
 	{
-		write(1, "|", 1);
-		printf("joining i = %i ", i);
+//		printf("thread %2i id: %li\n", i, (long)party[i]->thread_id);
 		status = pthread_join(party[i]->thread_id, NULL);
-		printf("status %i\n", status);
-		i++;
+		if (!status)
+			i++;
 	}
 	// close mutexes and free here
 	return (0);
@@ -50,11 +50,22 @@ int			main_thread(t_args *arg)
 		if (pthread_create(&(party[i]->thread_id), NULL, philo_thread, party[i])
 		|| pthread_create(&(party[i]->thread_id_die), NULL, time_to_death, party[i]))
 			return (1);
-
+	i = 0;
+	while (i < arg->philos)
+		if (party[i]->is_philo_ready == 2)
+		{
+//			printf("thread %2i id: %li\n", i, (long)party[i]->thread_id);
+			i++;
+		}
 	simulation = get_timestamp();
 
+	i = 0;
 	while (simulation)
-		;
-	return (clear_restaurant(party, arg->philos));
+		if (i < arg->philos && party[i]->count_eat == 0)
+			i++;
+		else
+			if (i == arg->philos)
+				simulation = 0;
+	clear_restaurant(party, arg->philos);
 	return (0);
 }

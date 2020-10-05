@@ -42,10 +42,11 @@ typedef struct	s_philosopher
 
 	int				time_eat;
 	int				time_sleep;
-	int				time_to_die;
+	time_t			time_to_die;
 
 	time_t			*simulation;
 	time_t			last_eat_time;
+	int				is_philo_ready;
 	int				is_dead;
 	int				count_eat; // add count eat check
 	void			(*eat)(struct s_philosopher *self, time_t ts);
@@ -54,6 +55,7 @@ typedef struct	s_philosopher
 						   time_t ts);
 	void			(*take_fork)(struct s_philosopher *self, enum e_forks frk);
 	void			(*drop_forks)(struct s_philosopher *self);
+	pthread_mutex_t	*say_mutex;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 }				t_philosopher;
@@ -86,6 +88,10 @@ void	*time_to_death(void *arg);
 
 void		print_help();
 time_t		get_timestamp();
+int			ft_ilen(int nb);
+void	form_say_string(char *dst, time_t ts, int num, const char *phrase);
+int			ft_strlen(char *str);
+
 void		ft_putchar(char c);
 void		ft_putunbr(unsigned long n);
 void		ft_putstrln(const char *str);
