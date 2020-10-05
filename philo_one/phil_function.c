@@ -67,13 +67,17 @@ void	phil_take_fork(t_philosopher *self, enum e_forks frk)
 		return ;
 	if (frk == FORK_LEFT)
 	{
+//		while (officiant < 2)
+//			;
 		pthread_mutex_lock(self->l_fork);
+		officiant--;
 		if (!*self->simulation)
 			pthread_mutex_unlock(self->l_fork);
 	}
 	else if (frk == FORK_RIGHT)
 	{
 		pthread_mutex_lock(self->r_fork);
+		officiant--;
 		if (!*self->simulation)
 			pthread_mutex_unlock(self->r_fork);
 	}
@@ -81,6 +85,15 @@ void	phil_take_fork(t_philosopher *self, enum e_forks frk)
 
 void	phil_drop_forks(t_philosopher *self)
 {
-	pthread_mutex_unlock(self->l_fork);
-	pthread_mutex_unlock(self->r_fork);
+	if (!(self->num % 2))
+	{
+		pthread_mutex_unlock(self->r_fork);
+		pthread_mutex_unlock(self->l_fork);
+	}
+	else
+	{
+		pthread_mutex_unlock(self->l_fork);
+		pthread_mutex_unlock(self->r_fork);
+	}
+	officiant += 2;
 }

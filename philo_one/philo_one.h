@@ -45,7 +45,6 @@ typedef struct	s_philosopher
 
 	time_t			*simulation;
 	time_t			last_eat_time;
-	int				is_dead;
 	int				count_eat; // add count eat check
 	void			(*eat)(struct s_philosopher *self, time_t ts);
 	void			(*sleep)(struct  s_philosopher *self);
@@ -67,6 +66,7 @@ typedef struct	s_args
 	int		eat_count;
 }				t_args;
 
+extern int	officiant;
 
 int		set_arg(t_args *arg, int argc, char **argv);
 

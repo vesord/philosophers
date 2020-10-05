@@ -54,7 +54,6 @@ static void	control_simulation(t_philosopher **party, t_args *arg, time_t *simul
 			if (ts - party[i]->last_eat_time  >= party[i]->time_to_die)
 			{
 				*simulation = 0;
-				party[i]->is_dead = 0;
 				party[i]->say(party[i], SAY_DEAD, ts);
 				party[i]->drop_forks(party[i]);
 			}
@@ -76,6 +75,7 @@ int			main_thread(t_args *arg)
 		return (1);
 	i = -1;
 	simulation = 1;
+	officiant = arg->philos;
 	while (++i < arg->philos)
 	{
 		party[i]->last_eat_time = get_timestamp();
