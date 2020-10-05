@@ -12,11 +12,6 @@
 
 #include "philo_one.h"
 
-void	print_help()
-{
-	write(1, "don't forget about help!:)\n", 27);
-}
-
 time_t get_timestamp()
 {
 	struct timeval t;
@@ -77,30 +72,4 @@ void	form_say_string(char *dst, time_t ts, int num, const char *phrase)
 	while (*phrase)
 		dst[++i] = *phrase++;
 	dst[i + 1] = '\n';
-}
-
-
-
-
-void		ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void		ft_putunbr(unsigned long n)
-{
-	if (n > 9)
-		ft_putunbr(n / 10);
-	ft_putchar(n % 10 + '0');
-}
-
-void		ft_putstrln(const char *str)
-{
-	const char *beg;
-
-	beg = str;
-	while (*str)
-		str++;
-	write(1, beg, str - beg);
-	ft_putchar('\n');
 }

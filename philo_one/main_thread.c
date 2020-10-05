@@ -30,7 +30,6 @@ int			clear_restaurant(t_philosopher **party, int count)
 	i = 0;
 	while (i < count)
 	{
-//		printf("thread %2i id: %li\n", i, (long)party[i]->thread_id);
 		status = pthread_join(party[i]->thread_id, NULL);
 		if (!status)
 			i++;
@@ -58,7 +57,6 @@ static void	control_simulation(t_philosopher **party, t_args *arg, time_t *simul
 				party[i]->is_dead = 0;
 				party[i]->say(party[i], SAY_DEAD, ts);
 				party[i]->drop_forks(party[i]);
-				//printf("%li ts\n%li let\n%li diff\n", ts, party[i]->last_eat_time, (ts - party[i]->last_eat_time));
 			}
 			if (party[i]->count_eat == 0)
 				finished_eat++;
@@ -81,8 +79,7 @@ int			main_thread(t_args *arg)
 	while (++i < arg->philos)
 	{
 		party[i]->last_eat_time = get_timestamp();
-		if (pthread_create(&(party[i]->thread_id), NULL, philo_thread,
-						   party[i]))
+		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
 	}
 	control_simulation(party, arg, &simulation);

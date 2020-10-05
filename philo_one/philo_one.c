@@ -36,3 +36,8 @@ int	main(int argc, char **argv)
 	}
 	return (0);
 }
+
+void	print_help()
+{
+	write(1, "don't forget about help!:)\n", 27);
+}

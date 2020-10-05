@@ -21,35 +21,6 @@ const char	*g_phrases[] =
 		"died"
 	};
 
-typedef struct	s_to_say
-{
-	char			*say_str;
-	int				say_str_len;
-	pthread_mutex_t	*say_mutex;
-	enum e_phrases	what;
-	time_t			*simulation;
-	pthread_t		say_thread_id;
-}				t_to_say;
-
-//void	*say_thread(void *arg)
-//{
-//	static int	is_last_msg;
-//	t_to_say	*to_say;
-//
-//	to_say = (t_to_say*)arg;
-//
-//	pthread_mutex_lock(to_say->say_mutex);
-//	if (!*to_say->simulation && is_last_msg)
-//		return (0);
-//	if (to_say->what == SAY_DEAD)
-//		is_last_msg = !is_last_msg;
-//	write(1, to_say->say_str, ft_strlen(to_say->say_str));
-//	free(to_say->say_str);
-//	pthread_mutex_unlock(to_say->say_mutex);
-//	pthread_detach(to_say->say_thread_id);
-//	return (0);
-//}
-
 void	phil_eat(t_philosopher *self, time_t ts)
 {
 	if (!*self->simulation)

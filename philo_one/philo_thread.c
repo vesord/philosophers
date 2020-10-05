@@ -12,37 +12,6 @@
 
 #include "philo_one.h"
 
-//
-#include <stdio.h>
-
-//void	*time_to_death(void *arg)
-//{
-//	t_philosopher	*seneca;
-//
-//	seneca = (t_philosopher*)arg;
-//	seneca->is_philo_ready++;
-//	while (!*seneca->simulation)
-//	{
-////		;
-//		usleep(1000 * 100);
-//		printf("%i waiting dead\n", seneca->num);
-//		write(1, "wait to die\n", 12);
-//	}
-//	seneca->last_eat_time = *seneca->simulation;
-//	while (*seneca->simulation)
-//	{
-//		if (get_timestamp() - seneca->last_eat_time  >= seneca->time_to_die)
-//		{
-//			*seneca->simulation = 0;
-//			seneca->say(seneca, SAY_DEAD, get_timestamp());
-//			seneca->is_dead = 1;
-//			seneca->drop_forks(seneca);
-//		}
-//	}
-//	return (0);
-//}
-
-
 void		*philo_thread(void *arg)
 {
 	t_philosopher	*dekart;
