@@ -37,7 +37,6 @@ enum	e_phrases
 typedef struct	s_philosopher
 {
 	pthread_t		thread_id;
-	pthread_t		thread_id_die;
 	int				num;
 
 	int				time_eat;
@@ -46,7 +45,6 @@ typedef struct	s_philosopher
 
 	time_t			*simulation;
 	time_t			last_eat_time;
-	int				is_philo_ready;
 	int				is_dead;
 	int				count_eat; // add count eat check
 	void			(*eat)(struct s_philosopher *self, time_t ts);
