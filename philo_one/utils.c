@@ -12,7 +12,7 @@
 
 #include "philo_one.h"
 
-time_t get_timestamp()
+time_t		get_timestamp(void)
 {
 	struct timeval t;
 
@@ -20,7 +20,7 @@ time_t get_timestamp()
 	return (t.tv_sec * 1000000 + t.tv_usec);
 }
 
-int	ft_ilen(int nb)
+int			ft_ilen(int nb)
 {
 	if (nb < 0)
 	{
@@ -56,7 +56,7 @@ int			ft_strlen(char *str)
 	return ((int)(str - beg));
 }
 
-void	form_say_string(char *dst, time_t ts, int num, const char *phrase)
+void		form_say_string(char *dst, time_t ts, int num, const char *phrase)
 {
 	int i;
 	int num_len;

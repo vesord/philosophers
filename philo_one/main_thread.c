@@ -12,16 +12,13 @@
 
 #include "philo_one.h"
 
-//
-#include <stdio.h>
-
-int			clear_restaurant(t_philosopher **party, int count)
+static void	joining(t_philosopher **party, int count)
 {
 	int	i;
 	int status;
 
 	i = 0;
-	while (++i < count)
+	while (i < count)
 	{
 		status = pthread_mutex_unlock(party[i]->l_fork);
 		if (status == 0)
@@ -34,14 +31,29 @@ int			clear_restaurant(t_philosopher **party, int count)
 		if (!status)
 			i++;
 	}
-	// close mutexes and free here
-	return (0);
 }
 
-static void	control_simulation(t_philosopher **party, t_args *arg, time_t *simulation)
+static void	clear_restaurant(t_philosopher **party, int count)
 {
-	int i;
-	int finished_eat;
+	int	i;
+
+	joining(party, count);
+	i = -1;
+	while (++i < count)
+		pthread_mutex_destroy(party[i]->l_fork);
+	pthread_mutex_destroy(party[count - 1]->l_fork + sizeof(pthread_mutex_t));
+	free(party[0]->l_fork);
+	i = -1;
+	while (++i < count)
+		free(party[i]);
+	free(party);
+}
+
+static void	control_simulation(t_philosopher **party, t_args *arg,
+															time_t *simulation)
+{
+	int		i;
+	int		finished_eat;
 	time_t	ts;
 
 	while (*simulation)
@@ -51,7 +63,7 @@ static void	control_simulation(t_philosopher **party, t_args *arg, time_t *simul
 		while (*simulation && ++i < arg->philos)
 		{
 			ts = get_timestamp();
-			if (ts - party[i]->last_eat_time  >= party[i]->time_to_die)
+			if (ts - party[i]->last_eat_time >= party[i]->time_to_die)
 			{
 				*simulation = 0;
 				party[i]->say(party[i], SAY_DEAD, ts);
@@ -65,14 +77,11 @@ static void	control_simulation(t_philosopher **party, t_args *arg, time_t *simul
 	}
 }
 
-extern time_t stamp[20];
-
 int			main_thread(t_args *arg)
 {
 	t_philosopher	**party;
 	time_t			simulation;
 	int				i;
-
 
 	party = NULL;
 	if (!(party = initialization(arg, &simulation)))
@@ -84,30 +93,12 @@ int			main_thread(t_args *arg)
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
 	}
-
 	i = 0;
 	while (i < arg->philos)
 		if (party[i]->last_eat_time)
 			i++;
-
-
 	simulation = 1;
 	control_simulation(party, arg, &simulation);
 	clear_restaurant(party, arg->philos);
-
-	printf("\n\n");
-	i = -1;
-	while (++i < arg->philos)
-	{
-		printf("Philo %i has eaten %i times\n", party[i]->num, party[i]->count_eat);
-	}
-
-	printf("\n\n");
-	i = -1;
-	while (++i < arg->philos)
-	{
-		printf("Philo %i has timestamp %li times\n", party[i]->num, stamp[i]);
-	}
-
 	return (0);
 }

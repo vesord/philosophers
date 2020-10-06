@@ -29,7 +29,7 @@ static int	arg_atoi(char *str)
 	return ((int)nb);
 }
 
-int set_arg(t_args *arg, int argc, char **argv)
+int			set_arg(t_args *arg, int argc, char **argv)
 {
 	int		nb;
 

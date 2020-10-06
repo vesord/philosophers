@@ -12,8 +12,6 @@
 
 #include "philo_one.h"
 
-time_t		stamp[20];
-
 void		*philo_thread(void *arg)
 {
 	t_philosopher	*dekart;
@@ -21,10 +19,6 @@ void		*philo_thread(void *arg)
 
 	dekart = (t_philosopher*)arg;
 	dekart->last_eat_time = get_timestamp();
-	//
-	stamp[dekart->num - 1] = dekart->last_eat_time;
-	//
-
 	while (!*dekart->simulation)
 		;
 	while (*dekart->simulation)

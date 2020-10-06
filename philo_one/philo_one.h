@@ -19,13 +19,13 @@
 # include <string.h>
 # include <sys/time.h>
 
-enum	e_forks
+enum			e_forks
 {
 	FORK_LEFT,
 	FORK_RIGHT
 };
 
-enum	e_phrases
+enum			e_phrases
 {
 	SAY_TOOK_FORK,
 	SAY_EAT,
@@ -38,18 +38,16 @@ typedef struct	s_philosopher
 {
 	pthread_t		thread_id;
 	int				num;
-
 	int				time_eat;
 	int				time_sleep;
 	time_t			time_to_die;
-
 	time_t			*simulation;
 	time_t			last_eat_time;
-	int				count_eat; // add count eat check
+	int				count_eat;
 	void			(*eat)(struct s_philosopher *self, time_t ts);
-	void			(*sleep)(struct  s_philosopher *self);
+	void			(*sleep)(struct s_philosopher *self);
 	void			(*say)(struct s_philosopher *self, enum e_phrases phrase,
-						   time_t ts);
+																	time_t ts);
 	void			(*take_fork)(struct s_philosopher *self, enum e_forks frk);
 	void			(*drop_forks)(struct s_philosopher *self, int order);
 	pthread_mutex_t	*say_mutex;
@@ -66,36 +64,26 @@ typedef struct	s_args
 	int		eat_count;
 }				t_args;
 
-extern int	officiant;
-extern t_philosopher **g_party;
-//
+int				set_arg(t_args *arg, int argc, char **argv);
 
+int				main_thread(t_args *arg);
 
-int		set_arg(t_args *arg, int argc, char **argv);
+t_philosopher	**initialization(t_args *arg, time_t *simulation);
 
-int		main_thread(t_args *arg);
+void			phil_say(t_philosopher *self, enum e_phrases what, time_t ts);
+void			phil_sleep(t_philosopher *self);
+void			phil_eat(t_philosopher *self, time_t ts);
+void			phil_take_fork(t_philosopher *self, enum e_forks frk);
+void			phil_drop_forks(t_philosopher *self, int order);
 
-t_philosopher	**initialization(t_args *arg,
-						  time_t *simulation);
+void			*philo_thread(void *arg);
 
-void	phil_say(t_philosopher *self, enum e_phrases what, time_t ts);
-void	phil_sleep(t_philosopher *self);
-void	phil_eat(t_philosopher *self, time_t ts);
-void	phil_take_fork(t_philosopher *self, enum e_forks frk);
-void	phil_drop_forks(t_philosopher *self, int order);
-
-void	*philo_thread(void *arg);
-//void	*time_to_death(void *arg);
-
-void		print_help();
-time_t		get_timestamp();
-int			ft_ilen(int nb);
-void	form_say_string(char *dst, time_t ts, int num, const char *phrase);
-int			ft_strlen(char *str);
-
-void		ft_putchar(char c);
-void		ft_putunbr(unsigned long n);
-void		ft_putstrln(const char *str);
-
+void			print_help();
+time_t			get_timestamp();
+int				ft_ilen(int nb);
+void			form_say_string(char *dst, time_t ts, int num,
+															const char *phrase);
+int				ft_strlen(char *str);
+void			ft_usleep(time_t mcs);
 
 #endif

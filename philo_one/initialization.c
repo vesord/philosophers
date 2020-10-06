@@ -13,7 +13,7 @@
 #include "philo_one.h"
 
 static t_philosopher	*philosopher_init(t_args *arg, int i,
-					pthread_mutex_t *mutexes, time_t *simulation)
+								pthread_mutex_t *mutexes, time_t *simulation)
 {
 	t_philosopher *kant;
 
@@ -40,7 +40,8 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	return (kant);
 }
 
-static int	phil_mutex_init(pthread_mutex_t *mutexes, int mutexes_count)
+static int				phil_mutex_init(pthread_mutex_t *mutexes,
+															int mutexes_count)
 {
 	int i;
 
@@ -51,7 +52,8 @@ static int	phil_mutex_init(pthread_mutex_t *mutexes, int mutexes_count)
 	return (0);
 }
 
-static int	party_init(t_philosopher **party, t_args *arg, time_t *simulation)
+static int				party_init(t_philosopher **party, t_args *arg,
+															time_t *simulation)
 {
 	pthread_mutex_t	*mutexes;
 	int				i;
@@ -68,11 +70,12 @@ static int	party_init(t_philosopher **party, t_args *arg, time_t *simulation)
 	return (0);
 }
 
-t_philosopher	**initialization(t_args *arg, time_t *simulation)
+t_philosopher			**initialization(t_args *arg, time_t *simulation)
 {
 	t_philosopher **party;
 
-	if (!(party = (t_philosopher**)malloc(sizeof(t_philosopher*) * arg->philos)))
+	if (!(party = (t_philosopher**)malloc(sizeof(t_philosopher*) *
+																arg->philos)))
 		return (NULL);
 	if (party_init(party, arg, simulation))
 		return (NULL);

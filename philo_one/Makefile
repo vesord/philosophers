@@ -6,7 +6,7 @@
 #    By: matrus <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/03 13:49:59 by matrus            #+#    #+#              #
-#    Updated: 2020/10/03 13:50:00 by matrus           ###   ########.fr        #
+#    Updated: 2020/10/06 13:28:14 by matrus           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ NAME = philo_one
 INCLUDES = philo_one.h
 
 SRCS = 	initialization.c main_thread.c phil_function.c \
-		philo_one.c set_arg.c utils.c philo_thread.c
+		philo_one.c set_arg.c utils.c philo_thread.c \
+		utils2.c
 
 OBJDIR = ./obj
 

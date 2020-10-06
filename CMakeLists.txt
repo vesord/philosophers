@@ -11,4 +11,4 @@ add_executable(philosophers
         philo_one/main_thread.c
         philo_one/initialization.c
         philo_one/phil_function.c
-        philo_one/philo_thread.c)
+        philo_one/philo_thread.c philo_one/utils2.c)

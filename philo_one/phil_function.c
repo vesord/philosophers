@@ -12,25 +12,16 @@
 
 #include "philo_one.h"
 
-const char	*g_phrases[] =
-	{
-		"has taken a fork",
-		"is eating",
-		"is sleeping",
-		"is thinking",
-		"died"
-	};
-
-static void	ft_usleep(time_t mcs)
+static const char	*g_phrases[] =
 {
-	time_t	cur_time;
+	"has taken a fork",
+	"is eating",
+	"is sleeping",
+	"is thinking",
+	"died"
+};
 
-	cur_time = get_timestamp();
-	while (get_timestamp() - cur_time < mcs)
-		;
-}
-
-void	phil_eat(t_philosopher *self, time_t ts)
+void				phil_eat(t_philosopher *self, time_t ts)
 {
 	if (!*self->simulation)
 		return ;
@@ -39,14 +30,15 @@ void	phil_eat(t_philosopher *self, time_t ts)
 	ft_usleep(self->time_eat);
 }
 
-void	phil_sleep(t_philosopher *self)
+void				phil_sleep(t_philosopher *self)
 {
 	if (!*self->simulation)
 		return ;
 	ft_usleep(self->time_sleep);
 }
 
-void	phil_say(t_philosopher *self, enum e_phrases what, time_t ts)
+void				phil_say(t_philosopher *self, enum e_phrases what,
+																	time_t ts)
 {
 	int						say_str_len;
 	char					*say_str;
@@ -69,7 +61,7 @@ void	phil_say(t_philosopher *self, enum e_phrases what, time_t ts)
 	free(say_str);
 }
 
-void	phil_take_fork(t_philosopher *self, enum e_forks frk)
+void				phil_take_fork(t_philosopher *self, enum e_forks frk)
 {
 	if (!*self->simulation)
 		return ;
@@ -87,7 +79,7 @@ void	phil_take_fork(t_philosopher *self, enum e_forks frk)
 	}
 }
 
-void	phil_drop_forks(t_philosopher *self, int order)
+void				phil_drop_forks(t_philosopher *self, int order)
 {
 	if (!order)
 	{

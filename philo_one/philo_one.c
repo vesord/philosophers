@@ -12,7 +12,7 @@
 
 #include "philo_one.h"
 
-int	main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	t_args	arg;
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-void	print_help()
+void	print_help(void)
 {
 	write(1, "don't forget about help!:)\n", 27);
 }
