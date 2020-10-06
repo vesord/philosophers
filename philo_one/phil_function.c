@@ -21,20 +21,29 @@ const char	*g_phrases[] =
 		"died"
 	};
 
+static void	ft_usleep(time_t mcs)
+{
+	time_t	cur_time;
+
+	cur_time = get_timestamp();
+	while (get_timestamp() - cur_time < mcs)
+		;
+}
+
 void	phil_eat(t_philosopher *self, time_t ts)
 {
 	if (!*self->simulation)
 		return ;
 	self->last_eat_time = ts;
 	self->count_eat++;
-	usleep(self->time_eat);
+	ft_usleep(self->time_eat);
 }
 
 void	phil_sleep(t_philosopher *self)
 {
 	if (!*self->simulation)
 		return ;
-	usleep(self->time_sleep);
+	ft_usleep(self->time_sleep);
 }
 
 void	phil_say(t_philosopher *self, enum e_phrases what, time_t ts)
@@ -66,9 +75,6 @@ void	phil_take_fork(t_philosopher *self, enum e_forks frk)
 		return ;
 	if (frk == FORK_LEFT)
 	{
-//		while (officiant < 2)
-//			;
-//		officiant--;
 		pthread_mutex_lock(self->l_fork);
 		if (!*self->simulation)
 			pthread_mutex_unlock(self->l_fork);
@@ -76,7 +82,6 @@ void	phil_take_fork(t_philosopher *self, enum e_forks frk)
 	else if (frk == FORK_RIGHT)
 	{
 		pthread_mutex_lock(self->r_fork);
-//		officiant--;
 		if (!*self->simulation)
 			pthread_mutex_unlock(self->r_fork);
 	}
@@ -94,5 +99,4 @@ void	phil_drop_forks(t_philosopher *self, int order)
 		pthread_mutex_unlock(self->l_fork);
 		pthread_mutex_unlock(self->r_fork);
 	}
-//	officiant += 1;
 }

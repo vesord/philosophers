@@ -57,7 +57,6 @@ static void	control_simulation(t_philosopher **party, t_args *arg, time_t *simul
 				party[i]->say(party[i], SAY_DEAD, ts);
 				party[i]->drop_forks(party[i], 1);
 			}
-		//	printf("philo %i ate %i times!\n", party[i]->num, party[i]->count_eat);
 			if (arg->eat_count && party[i]->count_eat >= arg->eat_count)
 				finished_eat++;
 		}
@@ -80,11 +79,8 @@ int			main_thread(t_args *arg)
 		return (1);
 	i = -1;
 	simulation = 0;
-	officiant = arg->philos;
-	g_party = party;
 	while (++i < arg->philos)
 	{
-		//party[i]->last_eat_time = get_timestamp();
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
 	}
