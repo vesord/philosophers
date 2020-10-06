@@ -12,9 +12,15 @@
 
 #include "philo_one.h"
 
-int			officiant;
-t_philosopher **g_party;
 time_t		stamp[20];
+
+void		wait_for_permission(t_philosopher *sokrat)
+{
+	while (!sokrat->permission)
+	{
+		;
+	}
+}
 
 void		*philo_thread(void *arg)
 {
@@ -33,21 +39,9 @@ void		*philo_thread(void *arg)
 		;
 	while (*dekart->simulation)
 	{
-//		order = 0;
-//		if (dekart->num == officiant)
-//			order = 1;
 		order = dekart->num % 2;
-		permission = 0;
-		while (!permission)
-		{
-			i = -1;
-			permission = 1;
-			if (!*dekart->simulation)
-				break ;
-			while (++i < officiant)
-				if (dekart->count_eat - g_party[i]->count_eat >= 1)
-					permission = 0;
-		}
+//		order = 1;
+		wait_for_permission(dekart);
 		dekart->take_fork(dekart, order ? FORK_LEFT : FORK_RIGHT);
 		dekart->say(dekart, SAY_TOOK_FORK, get_timestamp());
 		dekart->take_fork(dekart, order ? FORK_RIGHT : FORK_LEFT);

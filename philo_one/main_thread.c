@@ -38,12 +38,29 @@ int			clear_restaurant(t_philosopher **party, int count)
 	return (0);
 }
 
+static void	check_permissions(t_philosopher *marx, int *phase)
+{
+	if (*phase)
+	{
+		if (marx->num % 2)
+			marx->permission = 1;
+		else
+			marx->permission = 1;
+	}
+	else
+	{
+
+	}
+}
+
 static void	control_simulation(t_philosopher **party, t_args *arg, time_t *simulation)
 {
 	int i;
 	int finished_eat;
 	time_t	ts;
+	int phase;
 
+	phase = 0;
 	while (*simulation)
 	{
 		finished_eat = 0;
@@ -57,9 +74,9 @@ static void	control_simulation(t_philosopher **party, t_args *arg, time_t *simul
 				party[i]->say(party[i], SAY_DEAD, ts);
 				party[i]->drop_forks(party[i], 1);
 			}
-		//	printf("philo %i ate %i times!\n", party[i]->num, party[i]->count_eat);
 			if (arg->eat_count && party[i]->count_eat >= arg->eat_count)
 				finished_eat++;
+			check_permissions(party[i], &phase);
 		}
 		if (finished_eat == arg->philos)
 			*simulation = 0;
@@ -80,11 +97,8 @@ int			main_thread(t_args *arg)
 		return (1);
 	i = -1;
 	simulation = 0;
-	officiant = arg->philos;
-	g_party = party;
 	while (++i < arg->philos)
 	{
-		//party[i]->last_eat_time = get_timestamp();
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
 	}
@@ -93,7 +107,6 @@ int			main_thread(t_args *arg)
 	while (i < arg->philos)
 		if (party[i]->last_eat_time)
 			i++;
-
 
 	simulation = 1;
 	control_simulation(party, arg, &simulation);
