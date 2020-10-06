@@ -45,7 +45,7 @@ int set_arg(t_args *arg, int argc, char **argv)
 	if ((nb = arg_atoi(argv[4])) < 0)
 		return (1);
 	arg->time_sleep = nb;
-	arg->eat_count = -1;
+	arg->eat_count = 0;
 	if (argc == 5)
 		return (0);
 	if ((nb = arg_atoi(argv[5])) < 0)

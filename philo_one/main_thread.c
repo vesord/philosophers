@@ -55,13 +55,18 @@ static void	control_simulation(t_philosopher **party, t_args *arg, time_t *simul
 			{
 				*simulation = 0;
 				party[i]->say(party[i], SAY_DEAD, ts);
-				party[i]->drop_forks(party[i]);
+				party[i]->drop_forks(party[i], 1);
 			}
-			if (party[i]->count_eat == 0)
+		//	printf("philo %i ate %i times!\n", party[i]->num, party[i]->count_eat);
+			if (arg->eat_count && party[i]->count_eat >= arg->eat_count)
 				finished_eat++;
 		}
+		if (finished_eat == arg->philos)
+			*simulation = 0;
 	}
 }
+
+extern time_t stamp[20];
 
 int			main_thread(t_args *arg)
 {
@@ -74,15 +79,39 @@ int			main_thread(t_args *arg)
 	if (!(party = initialization(arg, &simulation)))
 		return (1);
 	i = -1;
-	simulation = 1;
+	simulation = 0;
 	officiant = arg->philos;
+	g_party = party;
 	while (++i < arg->philos)
 	{
-		party[i]->last_eat_time = get_timestamp();
+		//party[i]->last_eat_time = get_timestamp();
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
 	}
+
+	i = 0;
+	while (i < arg->philos)
+		if (party[i]->last_eat_time)
+			i++;
+
+
+	simulation = 1;
 	control_simulation(party, arg, &simulation);
 	clear_restaurant(party, arg->philos);
+
+	printf("\n\n");
+	i = -1;
+	while (++i < arg->philos)
+	{
+		printf("Philo %i has eaten %i times\n", party[i]->num, party[i]->count_eat);
+	}
+
+	printf("\n\n");
+	i = -1;
+	while (++i < arg->philos)
+	{
+		printf("Philo %i has timestamp %li times\n", party[i]->num, stamp[i]);
+	}
+
 	return (0);
 }

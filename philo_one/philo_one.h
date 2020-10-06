@@ -51,7 +51,7 @@ typedef struct	s_philosopher
 	void			(*say)(struct s_philosopher *self, enum e_phrases phrase,
 						   time_t ts);
 	void			(*take_fork)(struct s_philosopher *self, enum e_forks frk);
-	void			(*drop_forks)(struct s_philosopher *self);
+	void			(*drop_forks)(struct s_philosopher *self, int order);
 	pthread_mutex_t	*say_mutex;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -67,6 +67,9 @@ typedef struct	s_args
 }				t_args;
 
 extern int	officiant;
+extern t_philosopher **g_party;
+//
+
 
 int		set_arg(t_args *arg, int argc, char **argv);
 
@@ -79,7 +82,7 @@ void	phil_say(t_philosopher *self, enum e_phrases what, time_t ts);
 void	phil_sleep(t_philosopher *self);
 void	phil_eat(t_philosopher *self, time_t ts);
 void	phil_take_fork(t_philosopher *self, enum e_forks frk);
-void	phil_drop_forks(t_philosopher *self);
+void	phil_drop_forks(t_philosopher *self, int order);
 
 void	*philo_thread(void *arg);
 //void	*time_to_death(void *arg);
