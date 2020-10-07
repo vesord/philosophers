@@ -47,10 +47,9 @@ typedef struct	s_philosopher
 	int				count_eat;
 	int				is_ready;
 	int				permission_to_eat;
-	void			(*eat)(struct s_philosopher *self, time_t ts);
+	void			(*eat)(struct s_philosopher *self);
 	void			(*sleep)(struct s_philosopher *self);
-	void			(*say)(struct s_philosopher *self, enum e_phrases phrase,
-																	time_t ts);
+	void			(*say)(struct s_philosopher *self, enum e_phrases phrase);
 	void			(*take_fork)(struct s_philosopher *self, enum e_forks frk);
 	void			(*drop_forks)(struct s_philosopher *self, int order);
 	pthread_mutex_t *eatdeath_mutex;
@@ -74,9 +73,9 @@ int				main_thread(t_args *arg);
 
 t_philosopher	**initialization(t_args *arg, time_t *simulation);
 
-void			phil_say(t_philosopher *self, enum e_phrases what, time_t ts);
+void phil_say(t_philosopher *self, enum e_phrases what);
 void			phil_sleep(t_philosopher *self);
-void			phil_eat(t_philosopher *self, time_t ts);
+void phil_eat(t_philosopher *self);
 void			phil_take_fork(t_philosopher *self, enum e_forks frk);
 void			phil_drop_forks(t_philosopher *self, int order);
 
