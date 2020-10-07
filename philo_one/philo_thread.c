@@ -20,7 +20,11 @@ void		*philo_thread(void *arg)
 	dekart = (t_philosopher*)arg;
 	pthread_create(&dekart->thread_deathcheck_id, NULL, philo_deathcheck_thread,
 																		dekart);
+	dekart->is_ready++;
+	while (!*dekart->simulation)
+		;
 	dekart->last_eat_time = get_timestamp();
+	pthread_mutex_unlock(dekart->eatdeath_mutex);
 	while (*dekart->simulation)
 	{
 		order = dekart->num % 2;
@@ -45,6 +49,9 @@ void		*philo_deathcheck_thread(void *arg)
 	t_philosopher	*sokrat;
 
 	sokrat = (t_philosopher*)arg;
+	sokrat->is_ready++;
+	while (!*sokrat->simulation)
+		;
 	while (*sokrat->simulation)
 	{
 		pthread_mutex_lock(sokrat->eatdeath_mutex);

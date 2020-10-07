@@ -83,13 +83,12 @@ int			main_thread(t_args *arg)
 	if (!(party = initialization(arg, &simulation)))
 		return (1);
 	i = -1;
-	simulation = 1;
+	simulation = 0;
 	while (++i < arg->philos)
 	{
-		party[i]->last_eat_time = get_timestamp();
+		pthread_mutex_lock(party[i]->eatdeath_mutex);
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
-		usleep(600);
 	}
 	simulation = get_timestamp();
 	control_simulation(party, arg, &simulation);

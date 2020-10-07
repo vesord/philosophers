@@ -45,6 +45,7 @@ typedef struct	s_philosopher
 	time_t			*simulation;
 	time_t			last_eat_time;
 	int				count_eat;
+	int				is_ready;
 	void			(*eat)(struct s_philosopher *self);
 	void			(*sleep)(struct s_philosopher *self);
 	void			(*say)(struct s_philosopher *self, enum e_phrases phrase);
@@ -85,7 +86,10 @@ time_t			get_timestamp();
 int				ft_ilen(int nb);
 void			form_say_string(char *dst, time_t ts, int num,
 															const char *phrase);
-int				ft_strlen(char *str);
+int				ft_strlen(const char *str);
 void			ft_usleep(time_t mcs);
+
+void			ft_putnbr_fd(long n, int fd);
+void			ft_putchar_fd(char c, int fd);
 
 #endif
