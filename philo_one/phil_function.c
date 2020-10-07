@@ -21,7 +21,7 @@ static const char	*g_phrases[] =
 	"died"
 };
 
-void phil_eat(t_philosopher *self)
+void	phil_eat(t_philosopher *self)
 {
 	if (!*self->simulation)
 		return ;
@@ -32,14 +32,14 @@ void phil_eat(t_philosopher *self)
 	ft_usleep(self->time_eat);
 }
 
-void				phil_sleep(t_philosopher *self)
+void	phil_sleep(t_philosopher *self)
 {
 	if (!*self->simulation)
 		return ;
 	ft_usleep(self->time_sleep);
 }
 
-void phil_say(t_philosopher *self, enum e_phrases what)
+void	phil_say(t_philosopher *self, enum e_phrases what)
 {
 	int						say_str_len;
 	char					*say_str;
@@ -57,7 +57,8 @@ void phil_say(t_philosopher *self, enum e_phrases what)
 		free(say_str);
 		return ;
 	}
-	form_say_string(say_str, get_timestamp() / 1000, self->num, g_phrases[what]);
+	form_say_string(say_str, get_timestamp() / 1000, self->num,
+															g_phrases[what]);
 	if (what == SAY_DEAD)
 		is_last_msg = !is_last_msg;
 	write(1, say_str, ft_strlen(say_str));
@@ -66,7 +67,7 @@ void phil_say(t_philosopher *self, enum e_phrases what)
 	usleep(100);
 }
 
-void				phil_take_fork(t_philosopher *self, enum e_forks frk)
+void	phil_take_fork(t_philosopher *self, enum e_forks frk)
 {
 	if (!*self->simulation)
 		return ;
@@ -84,7 +85,7 @@ void				phil_take_fork(t_philosopher *self, enum e_forks frk)
 	}
 }
 
-void				phil_drop_forks(t_philosopher *self, int order)
+void	phil_drop_forks(t_philosopher *self, int order)
 {
 	if (order)
 	{

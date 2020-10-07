@@ -53,7 +53,6 @@ static int				phil_mutex_init(pthread_mutex_t *mutexes_forks,
 	while (++i < mutexes_count - 1)
 		if (pthread_mutex_init(&mutexes_eatdeath[i], NULL))
 			return (1);
-
 	return (0);
 }
 

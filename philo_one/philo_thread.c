@@ -12,22 +12,14 @@
 
 #include "philo_one.h"
 
-//static void	wait_permission(t_philosopher *volter)
-//{
-//	while (!volter->permission_to_eat)
-//	{
-//		if (!*volter->simulation)
-//			break ;
-//	}
-//}
-
 void		*philo_thread(void *arg)
 {
 	t_philosopher	*dekart;
 	int				order;
 
 	dekart = (t_philosopher*)arg;
-	pthread_create(&dekart->thread_deathcheck_id, NULL, philo_deathcheck_thread, dekart);
+	pthread_create(&dekart->thread_deathcheck_id, NULL, philo_deathcheck_thread,
+																		dekart);
 	dekart->last_eat_time = get_timestamp();
 	while (*dekart->simulation)
 	{
@@ -43,6 +35,8 @@ void		*philo_thread(void *arg)
 		dekart->sleep(dekart);
 		dekart->say(dekart, SAY_THINK);
 	}
+	pthread_mutex_unlock(dekart->eatdeath_mutex);
+	pthread_join(dekart->thread_deathcheck_id, NULL);
 	return ((void*)0);
 }
 
@@ -51,8 +45,7 @@ void		*philo_deathcheck_thread(void *arg)
 	t_philosopher	*sokrat;
 
 	sokrat = (t_philosopher*)arg;
-	pthread_detach(sokrat->thread_deathcheck_id);
-	while(*sokrat->simulation)
+	while (*sokrat->simulation)
 	{
 		pthread_mutex_lock(sokrat->eatdeath_mutex);
 		if (get_timestamp() - sokrat->last_eat_time >= sokrat->time_to_die)

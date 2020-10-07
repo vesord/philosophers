@@ -71,9 +71,9 @@ int				main_thread(t_args *arg);
 
 t_philosopher	**initialization(t_args *arg, time_t *simulation);
 
-void phil_say(t_philosopher *self, enum e_phrases what);
+void			phil_say(t_philosopher *self, enum e_phrases what);
 void			phil_sleep(t_philosopher *self);
-void phil_eat(t_philosopher *self);
+void			phil_eat(t_philosopher *self);
 void			phil_take_fork(t_philosopher *self, enum e_forks frk);
 void			phil_drop_forks(t_philosopher *self, int order);
 

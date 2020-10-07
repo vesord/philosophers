@@ -15,20 +15,20 @@
 static void	joining(t_philosopher **party, int count)
 {
 	int	i;
-	int status_1;
+	int status;
 
 	i = 0;
 	while (i < count)
 	{
-		status_1 = pthread_mutex_unlock(party[i]->l_fork);
-		if (status_1 == 0)
+		status = pthread_mutex_unlock(party[i]->l_fork);
+		if (status == 0)
 			i++;
 	}
 	i = 0;
 	while (i < count)
 	{
-		status_1 = pthread_join(party[i]->thread_id, NULL);
-		if (status_1 == 0)
+		status = pthread_join(party[i]->thread_id, NULL);
+		if (status == 0)
 			i++;
 	}
 }
