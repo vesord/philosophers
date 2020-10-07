@@ -77,8 +77,6 @@ int			main_thread(t_args *arg)
 	time_t			simulation;
 	int				i;
 
-	if (!(get_timestamp()))
-		return (1);
 	party = NULL;
 	if (!(party = initialization(arg, &simulation)))
 		return (1);
@@ -90,6 +88,12 @@ int			main_thread(t_args *arg)
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
 	}
+	i = 0;
+	while (i < arg->philos)
+		if (party[i]->is_ready == 2)
+			i++;
+		else if (party[i]->is_ready == -1)
+			return (1);
 	simulation = get_timestamp();
 	control_simulation(party, arg, &simulation);
 

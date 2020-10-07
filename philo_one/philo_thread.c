@@ -12,39 +12,45 @@
 
 #include "philo_one.h"
 
+static void	actions(t_philosopher *kopernic)
+{
+	int order;
+
+	order = kopernic->num % 2;
+	kopernic->take_fork(kopernic, order ? FORK_LEFT : FORK_RIGHT);
+	kopernic->say(kopernic, SAY_TOOK_FORK);
+	kopernic->take_fork(kopernic, order ? FORK_RIGHT : FORK_LEFT);
+	kopernic->say(kopernic, SAY_TOOK_FORK);
+	kopernic->say(kopernic, SAY_EAT);
+	kopernic->eat(kopernic);
+	kopernic->drop_forks(kopernic, order);
+	kopernic->say(kopernic, SAY_SLEEP);
+	kopernic->sleep(kopernic);
+	kopernic->say(kopernic, SAY_THINK);
+}
+
 void		*philo_thread(void *arg)
 {
 	t_philosopher	*dekart;
-	int				order;
 
 	dekart = (t_philosopher*)arg;
-	pthread_create(&dekart->thread_deathcheck_id, NULL, philo_deathcheck_thread,
-																		dekart);
 	dekart->is_ready++;
+	if (pthread_create(&dekart->deathcheck_id, NULL, deathcheck_thread, dekart))
+		dekart->is_ready = -1;
 	while (!*dekart->simulation)
 		;
 	dekart->last_eat_time = get_timestamp();
 	pthread_mutex_unlock(dekart->eatdeath_mutex);
 	while (*dekart->simulation)
 	{
-		order = dekart->num % 2;
-		dekart->take_fork(dekart, order ? FORK_LEFT : FORK_RIGHT);
-		dekart->say(dekart, SAY_TOOK_FORK);
-		dekart->take_fork(dekart, order ? FORK_RIGHT : FORK_LEFT);
-		dekart->say(dekart, SAY_TOOK_FORK);
-		dekart->say(dekart, SAY_EAT);
-		dekart->eat(dekart);
-		dekart->drop_forks(dekart, order);
-		dekart->say(dekart, SAY_SLEEP);
-		dekart->sleep(dekart);
-		dekart->say(dekart, SAY_THINK);
+		actions(dekart);
 	}
 	pthread_mutex_unlock(dekart->eatdeath_mutex);
-	pthread_join(dekart->thread_deathcheck_id, NULL);
+	pthread_join(dekart->deathcheck_id, NULL);
 	return ((void*)0);
 }
 
-void		*philo_deathcheck_thread(void *arg)
+void		*deathcheck_thread(void *arg)
 {
 	t_philosopher	*sokrat;
 

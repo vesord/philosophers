@@ -62,12 +62,16 @@ void	phil_drop_forks(t_philosopher *self, int order)
 	if (order)
 	{
 		pthread_mutex_unlock(self->r_fork);
+		usleep(5);
 		pthread_mutex_unlock(self->l_fork);
+		usleep(5);
 	}
 	else
 	{
 		pthread_mutex_unlock(self->l_fork);
+		usleep(5);
 		pthread_mutex_unlock(self->r_fork);
+		usleep(5);
 	}
 }
 
@@ -98,26 +102,3 @@ void	phil_say(t_philosopher *self, enum e_phrases what)
 	free(say_str);
 	usleep(5);
 }
-
-//void	phil_say(t_philosopher *self, enum e_phrases what)
-//{
-//	static int				is_last_msg;
-//	time_t					ts;
-//
-//	if (!*self->simulation && what != SAY_DEAD)
-//		return ;
-//	ts = get_timestamp();
-//	pthread_mutex_lock(self->say_mutex);
-//	if (!*self->simulation && is_last_msg)
-//		return ;
-//	if (what == SAY_DEAD)
-//		is_last_msg = !is_last_msg;
-//	ft_putnbr_fd(ts, 1);
-//	ft_putchar_fd(' ', 1);
-//	ft_putnbr_fd(self->num, 1);
-//	ft_putchar_fd(' ', 1);
-//	write(1, g_phrases[what], ft_strlen(g_phrases[what]));
-//	ft_putchar_fd('\n', 1);
-//	pthread_mutex_unlock(self->say_mutex);
-////	usleep(100);
-//}
