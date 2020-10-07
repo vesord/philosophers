@@ -69,6 +69,8 @@ static void	control_simulation(t_philosopher **party, t_args *arg,
 	}
 }
 
+extern time_t		g_cur_time;
+
 #include <stdio.h>
 
 int			main_thread(t_args *arg)
@@ -83,15 +85,23 @@ int			main_thread(t_args *arg)
 	if (!(party = initialization(arg, &simulation)))
 		return (1);
 	i = -1;
-	simulation = 1;
+	simulation = 0;
 	while (++i < arg->philos)
 	{
-		party[i]->last_eat_time = get_timestamp();
+		pthread_mutex_lock(party[i]->eatdeath_mutex);
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
-		usleep(600);
 	}
-	simulation = get_timestamp();
+	i = 0;
+	while (i < arg->philos)
+		if (party[i]->is_ready == 2)
+			i++;
+
+	pthread_t id;
+	pthread_create(&id, NULL, time_count_thread, NULL);
+	pthread_detach(id);
+	usleep(300);
+	simulation = 1;
 	control_simulation(party, arg, &simulation);
 
 	printf("\n\n");

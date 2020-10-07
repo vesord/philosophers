@@ -45,6 +45,7 @@ typedef struct	s_philosopher
 	time_t			*simulation;
 	time_t			last_eat_time;
 	int				count_eat;
+	int				is_ready;
 	void			(*eat)(struct s_philosopher *self);
 	void			(*sleep)(struct s_philosopher *self);
 	void			(*say)(struct s_philosopher *self, enum e_phrases phrase);
@@ -87,5 +88,7 @@ void			form_say_string(char *dst, time_t ts, int num,
 															const char *phrase);
 int				ft_strlen(char *str);
 void			ft_usleep(time_t mcs);
+
+void			*time_count_thread();
 
 #endif

@@ -12,11 +12,32 @@
 
 #include "philo_one.h"
 
+time_t		g_cur_time;
+
+void	*time_count_thread()
+{
+	time_t begin;
+
+	begin = get_timestamp();
+	while (1)
+	{
+		g_cur_time = (begin - get_timestamp()) / 1000;
+	}
+}
+
 void	ft_usleep(time_t mcs)
 {
-	time_t		cur_time;
+	time_t		beg_time;
 
-	cur_time = get_timestamp();
-	while (get_timestamp() - cur_time < mcs)
+	beg_time = g_cur_time;
+	while (g_cur_time - beg_time < mcs)
 		usleep(20);
+}
+
+time_t	get_timestamp(void)
+{
+	struct timeval			t;
+
+	gettimeofday(&t, NULL);
+	return (t.tv_sec * 1000000 + t.tv_usec);
 }

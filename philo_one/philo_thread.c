@@ -12,6 +12,8 @@
 
 #include "philo_one.h"
 
+extern time_t		g_cur_time;
+
 void		*philo_thread(void *arg)
 {
 	t_philosopher	*dekart;
@@ -20,20 +22,24 @@ void		*philo_thread(void *arg)
 	dekart = (t_philosopher*)arg;
 	pthread_create(&dekart->thread_deathcheck_id, NULL, philo_deathcheck_thread,
 																		dekart);
-	dekart->last_eat_time = get_timestamp();
+	dekart->is_ready++;
+	while (!*dekart->simulation)
+		;
+	dekart->last_eat_time = 0;
+	pthread_mutex_unlock(dekart->eatdeath_mutex);
 	while (*dekart->simulation)
 	{
 		order = dekart->num % 2;
-		dekart->take_fork(dekart, order ? FORK_LEFT : FORK_RIGHT);
-		dekart->say(dekart, SAY_TOOK_FORK);
-		dekart->take_fork(dekart, order ? FORK_RIGHT : FORK_LEFT);
-		dekart->say(dekart, SAY_TOOK_FORK);
-		dekart->say(dekart, SAY_EAT);
-		dekart->eat(dekart);
-		dekart->drop_forks(dekart, order);
-		dekart->say(dekart, SAY_SLEEP);
-		dekart->sleep(dekart);
-		dekart->say(dekart, SAY_THINK);
+		phil_take_fork(dekart, order ? FORK_LEFT : FORK_RIGHT);
+		phil_say(dekart, SAY_TOOK_FORK);
+		phil_take_fork(dekart, order ? FORK_RIGHT : FORK_LEFT);
+		phil_say(dekart, SAY_TOOK_FORK);
+		phil_say(dekart, SAY_EAT);
+		phil_eat(dekart);
+		phil_drop_forks(dekart, order);
+		phil_say(dekart, SAY_SLEEP);
+		phil_sleep(dekart);
+		phil_say(dekart, SAY_THINK);
 	}
 	pthread_mutex_unlock(dekart->eatdeath_mutex);
 	pthread_join(dekart->thread_deathcheck_id, NULL);
@@ -45,10 +51,13 @@ void		*philo_deathcheck_thread(void *arg)
 	t_philosopher	*sokrat;
 
 	sokrat = (t_philosopher*)arg;
+	sokrat->is_ready++;
+	while (!*sokrat->simulation)
+		;
 	while (*sokrat->simulation)
 	{
 		pthread_mutex_lock(sokrat->eatdeath_mutex);
-		if (get_timestamp() - sokrat->last_eat_time >= sokrat->time_to_die)
+		if (g_cur_time - sokrat->last_eat_time >= sokrat->time_to_die)
 		{
 			*sokrat->simulation = 0;
 			sokrat->say(sokrat, SAY_DEAD);
