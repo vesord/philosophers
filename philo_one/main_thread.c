@@ -16,13 +16,11 @@ static void	joining(t_philosopher **party, int count)
 {
 	int	i;
 	int status_1;
-//	int status_2;
 
 	i = 0;
 	while (i < count)
 	{
 		status_1 = pthread_mutex_unlock(party[i]->l_fork);
-//		status_2 = pthread_mutex_unlock(party[i]->eatdeath_mutex);
 		if (status_1 == 0)
 			i++;
 	}
@@ -30,7 +28,6 @@ static void	joining(t_philosopher **party, int count)
 	while (i < count)
 	{
 		status_1 = pthread_join(party[i]->thread_id, NULL);
-//		status_2 = pthread_join(party[i]->thread_deathcheck_id, NULL);
 		if (status_1 == 0)
 			i++;
 	}
@@ -57,23 +54,15 @@ static void	control_simulation(t_philosopher **party, t_args *arg,
 {
 	int		i;
 	int		finished_eat;
-//	int		min_eated;
 
 	while (*simulation)
 	{
 		finished_eat = 0;
 		i = -1;
-//		min_eated = party[0]->count_eat;
 		while (*simulation && ++i < arg->philos)
 		{
 			if (arg->eat_count && party[i]->count_eat >= arg->eat_count)
 				finished_eat++;
-//			if (party[i]->count_eat < min_eated)
-//				min_eated = party[i]->count_eat;
-//			if (party[i]->count_eat > min_eated)
-//				party[i]->permission_to_eat = 0;
-//			else
-//				party[i]->permission_to_eat = 1;
 		}
 		if (finished_eat == arg->philos)
 			*simulation = 0;
@@ -101,14 +90,7 @@ int			main_thread(t_args *arg)
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
 		usleep(600);
-//		if (pthread_create(&party[i]->thread_deathcheck_id, NULL,
-//											philo_deathcheck_thread, party[i]))
-//			return (1);
 	}
-//	i = 0;
-//	while (i < arg->philos)
-//		if (party[i]->is_ready == 2)
-//			i++;
 	simulation = get_timestamp();
 	control_simulation(party, arg, &simulation);
 

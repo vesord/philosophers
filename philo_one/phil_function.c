@@ -12,8 +12,6 @@
 
 #include "philo_one.h"
 
-extern pthread_mutex_t *death_mutexes;
-
 static const char	*g_phrases[] =
 {
 	"has taken a fork",

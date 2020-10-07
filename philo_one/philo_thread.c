@@ -27,15 +27,11 @@ void		*philo_thread(void *arg)
 	int				order;
 
 	dekart = (t_philosopher*)arg;
-//	dekart->is_ready += 1;
-//	while (!*dekart->simulation)
-//		;
 	pthread_create(&dekart->thread_deathcheck_id, NULL, philo_deathcheck_thread, dekart);
 	dekart->last_eat_time = get_timestamp();
 	while (*dekart->simulation)
 	{
 		order = dekart->num % 2;
-//		wait_permission(dekart);
 		dekart->take_fork(dekart, order ? FORK_LEFT : FORK_RIGHT);
 		dekart->say(dekart, SAY_TOOK_FORK);
 		dekart->take_fork(dekart, order ? FORK_RIGHT : FORK_LEFT);
@@ -56,10 +52,6 @@ void		*philo_deathcheck_thread(void *arg)
 
 	sokrat = (t_philosopher*)arg;
 	pthread_detach(sokrat->thread_deathcheck_id);
-//	sokrat->is_ready += 1;
-//	while (!*sokrat->simulation)
-//		;
-//	usleep(1000);
 	while(*sokrat->simulation)
 	{
 		pthread_mutex_lock(sokrat->eatdeath_mutex);

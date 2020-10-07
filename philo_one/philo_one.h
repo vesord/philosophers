@@ -45,8 +45,6 @@ typedef struct	s_philosopher
 	time_t			*simulation;
 	time_t			last_eat_time;
 	int				count_eat;
-	int				is_ready;
-	int				permission_to_eat;
 	void			(*eat)(struct s_philosopher *self);
 	void			(*sleep)(struct s_philosopher *self);
 	void			(*say)(struct s_philosopher *self, enum e_phrases phrase);
