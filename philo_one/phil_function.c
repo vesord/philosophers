@@ -57,7 +57,10 @@ void				phil_say(t_philosopher *self, enum e_phrases what,
 	form_say_string(say_str, ts / 1000, self->num, g_phrases[what]);
 	pthread_mutex_lock(self->say_mutex);
 	if (!*self->simulation && is_last_msg)
+	{
+		free(say_str);
 		return ;
+	}
 	if (what == SAY_DEAD)
 		is_last_msg = !is_last_msg;
 	write(1, say_str, ft_strlen(say_str));

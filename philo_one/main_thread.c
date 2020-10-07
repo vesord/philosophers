@@ -91,19 +91,20 @@ int			main_thread(t_args *arg)
 	if (!(party = initialization(arg, &simulation)))
 		return (1);
 	i = -1;
-	simulation = 1;
+	simulation = 0;
 	while (++i < arg->philos)
 	{
-		party[i]->last_eat_time = get_timestamp();
 		if (pthread_create(&party[i]->thread_id, NULL, philo_thread, party[i]))
 			return (1);
-		usleep(300);
+		if (pthread_create(&party[i]->thread_deathcheck_id, NULL,
+											philo_deathcheck_thread, party[i]))
+			return (1);
 	}
 	i = 0;
-//	while (i < arg->philos)
-//		if (party[i]->last_eat_time)
-//			i++;
-//	simulation = 1;
+	while (i < arg->philos)
+		if (party[i]->last_eat_time)
+			i++;
+	simulation = 1;
 	control_simulation(party, arg, &simulation);
 
 	printf("\n\n");
