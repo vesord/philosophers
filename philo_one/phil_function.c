@@ -12,6 +12,8 @@
 
 #include "philo_one.h"
 
+extern pthread_mutex_t *death_mutexes;
+
 static const char	*g_phrases[] =
 {
 	"has taken a fork",
@@ -25,8 +27,10 @@ void				phil_eat(t_philosopher *self, time_t ts)
 {
 	if (!*self->simulation)
 		return ;
+	pthread_mutex_lock(self->eatdeath_mutex);
 	self->last_eat_time = ts;
 	self->count_eat++;
+	pthread_mutex_unlock(self->eatdeath_mutex);
 	ft_usleep(self->time_eat);
 }
 

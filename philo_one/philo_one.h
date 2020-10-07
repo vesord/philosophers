@@ -50,6 +50,7 @@ typedef struct	s_philosopher
 																	time_t ts);
 	void			(*take_fork)(struct s_philosopher *self, enum e_forks frk);
 	void			(*drop_forks)(struct s_philosopher *self, int order);
+	pthread_mutex_t *eatdeath_mutex;
 	pthread_mutex_t	*say_mutex;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;

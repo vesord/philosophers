@@ -15,9 +15,8 @@
 void	ft_usleep(time_t mcs)
 {
 	time_t		cur_time;
-	const int	inaccuracy = 22;
 
 	cur_time = get_timestamp();
-	while (get_timestamp() - cur_time < mcs - inaccuracy)
-		usleep(5);
+	while (get_timestamp() - cur_time < mcs)
+		usleep(2);
 }

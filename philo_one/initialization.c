@@ -40,33 +40,45 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	return (kant);
 }
 
-static int				phil_mutex_init(pthread_mutex_t *mutexes,
-															int mutexes_count)
+static int				phil_mutex_init(pthread_mutex_t *mutexes_forks,
+						pthread_mutex_t *mutexes_eatdeath, int mutexes_count)
 {
 	int i;
 
 	i = -1;
 	while (++i < mutexes_count)
-		if (pthread_mutex_init(&mutexes[i], NULL))
+		if (pthread_mutex_init(&mutexes_forks[i], NULL))
 			return (1);
+	i = -1;
+	while (++i < mutexes_count - 1)
+		if (pthread_mutex_init(&mutexes_eatdeath[i], NULL))
+			return (1);
+
 	return (0);
 }
 
 static int				party_init(t_philosopher **party, t_args *arg,
 															time_t *simulation)
 {
-	pthread_mutex_t	*mutexes;
+	pthread_mutex_t	*mutexes_forks;
+	pthread_mutex_t	*mutexes_eatdeath;
 	int				i;
 
-	if (!(mutexes = (pthread_mutex_t*)malloc(
+	if (!(mutexes_forks = (pthread_mutex_t*)malloc(
 		sizeof(pthread_mutex_t) * (arg->philos + 1))))
 		return (1);
-	if (phil_mutex_init(mutexes, arg->philos + 1))
+	if (!(mutexes_eatdeath = (pthread_mutex_t*)malloc(
+		sizeof(pthread_mutex_t) * arg->philos)))
+		return (1);
+	if (phil_mutex_init(mutexes_forks, mutexes_eatdeath, arg->philos + 1))
 		return (1);
 	i = -1;
 	while (++i < arg->philos)
-		if (!(party[i] = philosopher_init(arg, i, mutexes, simulation)))
+	{
+		if (!(party[i] = philosopher_init(arg, i, mutexes_forks, simulation)))
 			return (1);
+		party[i]->eatdeath_mutex = &(mutexes_eatdeath[i]);
+	}
 	return (0);
 }
 
