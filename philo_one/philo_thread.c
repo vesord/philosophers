@@ -18,6 +18,7 @@ void		*philo_thread(void *arg)
 	int				order;
 
 	dekart = (t_philosopher*)arg;
+	dekart->is_ready += 1;
 	while (!*dekart->simulation)
 		;
 	dekart->last_eat_time = *dekart->simulation;
@@ -35,7 +36,7 @@ void		*philo_thread(void *arg)
 		dekart->sleep(dekart);
 		dekart->say(dekart, SAY_THINK, get_timestamp());
 	}
-	return (0);
+	return ((void*)0);
 }
 
 void		*philo_deathcheck_thread(void *arg)
@@ -44,8 +45,10 @@ void		*philo_deathcheck_thread(void *arg)
 	time_t			ts;
 
 	sokrat = (t_philosopher*)arg;
+	sokrat->is_ready += 1;
 	while (!*sokrat->simulation)
 		;
+	usleep(sokrat->time_to_die / 3);
 	while(*sokrat->simulation)
 	{
 		pthread_mutex_lock(sokrat->eatdeath_mutex);
@@ -57,6 +60,7 @@ void		*philo_deathcheck_thread(void *arg)
 			sokrat->drop_forks(sokrat, 1);
 		}
 		pthread_mutex_unlock(sokrat->eatdeath_mutex);
+		usleep(1000);
 	}
 	return ((void*)0);
 }

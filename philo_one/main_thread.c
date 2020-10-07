@@ -31,6 +31,13 @@ static void	joining(t_philosopher **party, int count)
 		if (!status)
 			i++;
 	}
+	i = 0;
+	while (i < count)
+	{
+		status = pthread_join(party[i]->thread_deathcheck_id, NULL);
+		if (!status)
+			i++;
+	}
 }
 
 static void	clear_restaurant(t_philosopher **party, int count)
@@ -54,7 +61,6 @@ static void	control_simulation(t_philosopher **party, t_args *arg,
 {
 	int		i;
 	int		finished_eat;
-	time_t	ts;
 
 	while (*simulation)
 	{
@@ -62,15 +68,6 @@ static void	control_simulation(t_philosopher **party, t_args *arg,
 		i = -1;
 		while (*simulation && ++i < arg->philos)
 		{
-			pthread_mutex_lock(party[i]->eatdeath_mutex);
-			ts = get_timestamp();
-			if (ts - party[i]->last_eat_time >= party[i]->time_to_die)
-			{
-				*simulation = 0;
-				party[i]->say(party[i], SAY_DEAD, ts);
-				party[i]->drop_forks(party[i], 1);
-			}
-			pthread_mutex_unlock(party[i]->eatdeath_mutex);
 			if (arg->eat_count && party[i]->count_eat >= arg->eat_count)
 				finished_eat++;
 		}
@@ -102,9 +99,9 @@ int			main_thread(t_args *arg)
 	}
 	i = 0;
 	while (i < arg->philos)
-		if (party[i]->last_eat_time)
+		if (party[i]->is_ready == 2)
 			i++;
-	simulation = 1;
+	simulation = get_timestamp();
 	control_simulation(party, arg, &simulation);
 
 	printf("\n\n");
