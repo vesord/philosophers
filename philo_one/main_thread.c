@@ -61,15 +61,23 @@ static void	control_simulation(t_philosopher **party, t_args *arg,
 {
 	int		i;
 	int		finished_eat;
+//	int		min_eated;
 
 	while (*simulation)
 	{
 		finished_eat = 0;
 		i = -1;
+//		min_eated = party[0]->count_eat;
 		while (*simulation && ++i < arg->philos)
 		{
 			if (arg->eat_count && party[i]->count_eat >= arg->eat_count)
 				finished_eat++;
+//			if (party[i]->count_eat < min_eated)
+//				min_eated = party[i]->count_eat;
+//			if (party[i]->count_eat > min_eated)
+//				party[i]->permission_to_eat = 0;
+//			else
+//				party[i]->permission_to_eat = 1;
 		}
 		if (finished_eat == arg->philos)
 			*simulation = 0;
@@ -84,6 +92,8 @@ int			main_thread(t_args *arg)
 	time_t			simulation;
 	int				i;
 
+	if (!(get_timestamp()))
+		return (1);
 	party = NULL;
 	if (!(party = initialization(arg, &simulation)))
 		return (1);

@@ -18,5 +18,5 @@ void	ft_usleep(time_t mcs)
 
 	cur_time = get_timestamp();
 	while (get_timestamp() - cur_time < mcs)
-		usleep(2);
+		usleep(20);
 }

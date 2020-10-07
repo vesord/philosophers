@@ -14,9 +14,19 @@
 
 time_t		get_timestamp(void)
 {
-	struct timeval t;
+	struct timeval			t;
+	static int				is_mutex_inited;
+	static pthread_mutex_t	time_mutex;
 
+	if (!is_mutex_inited)
+	{
+		if (pthread_mutex_init(&time_mutex, NULL))
+			return (0);
+		is_mutex_inited = !is_mutex_inited;
+	}
+	pthread_mutex_lock(&time_mutex);
 	gettimeofday(&t, NULL);
+	pthread_mutex_unlock(&time_mutex);
 	return (t.tv_sec * 1000000 + t.tv_usec);
 }
 
