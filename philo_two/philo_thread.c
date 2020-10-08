@@ -46,9 +46,7 @@ void		*philo_thread(void *arg)
 		actions(dekart);
 	}
 	sem_post(dekart->eatdeath_sem);
-	printf("thread %i joining its death\n", dekart->num);
 	pthread_join(dekart->deathcheck_id, NULL);
-	printf("thread %i join successfull\n", dekart->num);
 	return ((void*)0);
 }
 
@@ -63,6 +61,8 @@ void		*deathcheck_thread(void *arg)
 	while (*sokrat->simulation)
 	{
 		sem_wait(sokrat->eatdeath_sem);
+		if (!*sokrat->simulation)
+			break ;
 		if (get_timestamp() - sokrat->last_eat_time >= sokrat->time_to_die)
 		{
 			*sokrat->simulation = 0;

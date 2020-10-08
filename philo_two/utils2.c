@@ -52,9 +52,20 @@ void	form_eatdeath_sem_name(char *dst, const char *common_part, int num)
 	while (common_part[++i])
 		dst[i] = common_part[i];
 	num_len = ft_ilen(num);
-	i--;
 	tmp	= i;
+	i--;
 	while (++i < tmp + num_len)
-		dst[i] = (num / ft_pow(10, tmp + num_len - i)) % 10 + '0';
+		dst[i] = (num / ft_pow(10, tmp - 1 + num_len - i)) % 10 + '0';
 	dst[i] = '\0';
+}
+
+int		philo_sem_open(sem_t **dst, const char *name, int value)
+{
+	if (sem_unlink(name))
+		if (errno != ENOENT)
+			return (1);
+	errno = 0;
+	if ((*dst = sem_open(name, O_CREAT | O_EXCL, 0644, value)) == SEM_FAILED)
+		return (1);
+	return (0);
 }

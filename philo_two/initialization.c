@@ -39,9 +39,8 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	kant->say = phil_say;
 	kant->take_fork = phil_take_fork;
 	kant->drop_forks = phil_drop_forks;
-	form_eatdeath_sem_name(eatdeath_sem_name, eatdeath_sem_name_common, i); // TODO:debug check
-	if ((kant->eatdeath_sem = sem_open(eatdeath_sem_name, O_CREAT, 0644,
-															0)) == SEM_FAILED)
+	form_eatdeath_sem_name(eatdeath_sem_name, eatdeath_sem_name_common, i);
+	if (philo_sem_open(&kant->eatdeath_sem, eatdeath_sem_name, 0))
 		return (NULL);
 	free(eatdeath_sem_name);
 	return (kant);
@@ -54,10 +53,9 @@ static int				party_init(t_philosopher **party, t_args *arg,
 	sem_t			*say_sem;
 	int				i;
 
-	if ((forks_sem = sem_open(forks_sem_name, O_CREAT, 0644,
-													arg->philos)) == SEM_FAILED)
+	if (philo_sem_open(&say_sem, say_sem_name, 1))
 		return (1);
-	if ((say_sem = sem_open(say_sem_name, O_CREAT, 0644, 1)) == SEM_FAILED)
+	if (philo_sem_open(&forks_sem, forks_sem_name, arg->philos))
 		return (1);
 	i = -1;
 	while (++i < arg->philos)

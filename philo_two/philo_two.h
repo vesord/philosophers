@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_one.h                                        :+:      :+:    :+:   */
+/*   philo_two.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -18,6 +18,7 @@
 # include <pthread.h>
 # include <semaphore.h>
 # include <string.h>
+# include <errno.h>
 # include <sys/time.h>
 
 enum			e_phrases
@@ -88,5 +89,6 @@ void			form_eatdeath_sem_name(char *dst, const char *common_part,
 																	int num);
 void			ft_putnbr_fd(long n, int fd);
 void			ft_putchar_fd(char c, int fd);
+int				philo_sem_open(sem_t **dst, const char *name, int value);
 
 #endif

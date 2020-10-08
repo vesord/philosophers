@@ -25,7 +25,7 @@ static void	joining(t_philosopher **party, int count)
 	{
 		sem_post(party[i]->forks_sem);
 		sem_post(party[i]->forks_sem);
-		sem_post(party[i]->eatdeath_sem); // ADD correct management
+		sem_post(party[i]->eatdeath_sem);
 		i++;
 	}
 	i = 0;

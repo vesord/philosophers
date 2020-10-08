@@ -15,8 +15,8 @@ add_executable(philosophers_1
         philo_one/utils2.c)
 
 add_executable(philosophers_2
-        philo_two/philo_two.c
         philo_two/philo_two.h
+        philo_two/philo_two.c
         philo_two/utils.c
         philo_two/set_arg.c
         philo_two/main_thread.c
