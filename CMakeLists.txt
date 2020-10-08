@@ -3,7 +3,7 @@ project(philosophers C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(philosophers
+add_executable(philosophers_1
         philo_one/philo_one.c
         philo_one/philo_one.h
         philo_one/utils.c
@@ -11,4 +11,16 @@ add_executable(philosophers
         philo_one/main_thread.c
         philo_one/initialization.c
         philo_one/phil_function.c
-        philo_one/philo_thread.c philo_one/utils2.c)
+        philo_one/philo_thread.c
+        philo_one/utils2.c)
+
+add_executable(philosophers_2
+        philo_two/philo_two.c
+        philo_two/philo_two.h
+        philo_two/utils.c
+        philo_two/set_arg.c
+        philo_two/main_thread.c
+        philo_two/initialization.c
+        philo_two/phil_function.c
+        philo_two/philo_thread.c
+        philo_two/utils2.c)
