@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <sys/time.h>
 
+
 enum			e_phrases
 {
 	SAY_TOOK_FORK,
@@ -50,6 +51,7 @@ typedef struct	s_philosopher
 	sem_t			*forks_sem;
 	sem_t			*eatdeath_sem;
 	sem_t			*say_sem;
+	sem_t			*servant_sem;
 }				t_philosopher;
 
 typedef struct	s_args

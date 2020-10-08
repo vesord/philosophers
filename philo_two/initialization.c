@@ -15,6 +15,7 @@
 const char				*forks_sem_name = "philo_forks";
 const char				*say_sem_name = "philo_say";
 const char				*eatdeath_sem_name_common = "philo_eatdeath";
+const char				*servant_sem_name = "philo_servant";
 
 static t_philosopher	*philosopher_init(t_args *arg, int i,
 															time_t *simulation)
@@ -51,11 +52,14 @@ static int				party_init(t_philosopher **party, t_args *arg,
 {
 	sem_t			*forks_sem;
 	sem_t			*say_sem;
+	sem_t			*servant_sem;
 	int				i;
 
 	if (philo_sem_open(&say_sem, say_sem_name, 1))
 		return (1);
 	if (philo_sem_open(&forks_sem, forks_sem_name, arg->philos))
+		return (1);
+	if (philo_sem_open(&servant_sem, servant_sem_name, arg->philos / 2))
 		return (1);
 	i = -1;
 	while (++i < arg->philos)
@@ -64,6 +68,7 @@ static int				party_init(t_philosopher **party, t_args *arg,
 			return (1);
 		party[i]->forks_sem = forks_sem;
 		party[i]->say_sem = say_sem;
+		party[i]->servant_sem = servant_sem;
 	}
 	return (0);
 }

@@ -12,6 +12,9 @@
 
 #include "philo_two.h"
 
+//
+#include <stdio.h>
+
 void	ft_usleep(time_t mcs)
 {
 	time_t		cur_time;
@@ -61,10 +64,7 @@ void	form_eatdeath_sem_name(char *dst, const char *common_part, int num)
 
 int		philo_sem_open(sem_t **dst, const char *name, int value)
 {
-	if (sem_unlink(name))
-		if (errno != ENOENT)
-			return (1);
-	errno = 0;
+	sem_unlink(name); // TODO: set errors on unlink
 	if ((*dst = sem_open(name, O_CREAT | O_EXCL, 0644, value)) == SEM_FAILED)
 		return (1);
 	return (0);

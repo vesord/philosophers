@@ -17,6 +17,7 @@
 
 static void	actions(t_philosopher *kopernic)
 {
+	sem_wait(kopernic->servant_sem);
 	kopernic->take_fork(kopernic);
 	kopernic->say(kopernic, SAY_TOOK_FORK);
 	kopernic->take_fork(kopernic);
@@ -24,6 +25,7 @@ static void	actions(t_philosopher *kopernic)
 	kopernic->say(kopernic, SAY_EAT);
 	kopernic->eat(kopernic);
 	kopernic->drop_forks(kopernic);
+	sem_post(kopernic->servant_sem);
 	kopernic->say(kopernic, SAY_SLEEP);
 	kopernic->sleep(kopernic);
 	kopernic->say(kopernic, SAY_THINK);
