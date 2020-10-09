@@ -29,7 +29,7 @@ int		main(int argc, char **argv)
 		print_help();
 		return (1);
 	}
-	else if (main_thread(&arg))
+	else if (arg.eat_count != 0 &&main_thread(&arg))
 	{
 		write(2, "Error. Something in threading went wrong. :(\n", 45);
 		return (1);
