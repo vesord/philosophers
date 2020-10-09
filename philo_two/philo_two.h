@@ -6,12 +6,12 @@
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 14:31:29 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/02 14:31:33 by matrus           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:35:35 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_TWO_H
+# define PHILO_TWO_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -20,7 +20,6 @@
 # include <string.h>
 # include <errno.h>
 # include <sys/time.h>
-
 
 enum			e_phrases
 {

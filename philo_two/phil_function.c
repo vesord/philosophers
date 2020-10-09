@@ -6,7 +6,7 @@
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 18:46:40 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/02 18:46:42 by matrus           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:36:51 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	phil_take_fork(t_philosopher *self)
 
 void	phil_drop_forks(t_philosopher *self)
 {
-		sem_post(self->forks_sem);
-		usleep(5);
-		sem_post(self->forks_sem);
-		usleep(5);
+	sem_post(self->forks_sem);
+	usleep(5);
+	sem_post(self->forks_sem);
+	usleep(5);
 }
 
 void	phil_say(t_philosopher *self, enum e_phrases what)

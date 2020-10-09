@@ -6,14 +6,11 @@
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 13:21:02 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/06 13:21:23 by matrus           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:40:24 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_two.h"
-
-//
-#include <stdio.h>
 
 void	ft_usleep(time_t mcs)
 {
@@ -55,7 +52,7 @@ void	form_eatdeath_sem_name(char *dst, const char *common_part, int num)
 	while (common_part[++i])
 		dst[i] = common_part[i];
 	num_len = ft_ilen(num);
-	tmp	= i;
+	tmp = i;
 	i--;
 	while (++i < tmp + num_len)
 		dst[i] = (num / ft_pow(10, tmp - 1 + num_len - i)) % 10 + '0';
@@ -64,7 +61,7 @@ void	form_eatdeath_sem_name(char *dst, const char *common_part, int num)
 
 int		philo_sem_open(sem_t **dst, const char *name, int value)
 {
-	sem_unlink(name); // TODO: set errors on unlink
+	sem_unlink(name);
 	if ((*dst = sem_open(name, O_CREAT | O_EXCL, 0644, value)) == SEM_FAILED)
 		return (1);
 	return (0);

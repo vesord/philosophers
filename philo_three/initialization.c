@@ -6,20 +6,18 @@
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 18:36:27 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/02 18:36:29 by matrus           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:48:11 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
 
-const char				*forks_sem_name = "philo_forks";
-const char				*say_sem_name = "philo_say";
-const char				*eatdeath_sem_name_common = "philo_eatdeath";
-const char				*finished_eat_sem_name_common = "philo_finished_eat";
-const char				*servant_sem_name = "philo_servant";
-const char				*simulation_sem_name = "philo_end";
-
-
+const char				*g_forks_sem_name = "philo_forks";
+const char				*g_say_sem_name = "philo_say";
+const char				*g_eatdeath_sem_name_common = "philo_eatdeath";
+const char				*g_finished_eat_sem_name_common = "philo_finished_eat";
+const char				*g_servant_sem_name = "philo_servant";
+const char				*g_simulation_sem_name = "philo_end";
 
 static t_philosopher	*philosopher_init(t_args *arg, int i,
 															time_t *simulation)
@@ -43,12 +41,12 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	kant->say = phil_say;
 	kant->take_fork = phil_take_fork;
 	kant->drop_forks = phil_drop_forks;
-	if (!(sem_name = form_sem_name(eatdeath_sem_name_common, i)))
+	if (!(sem_name = form_sem_name(g_eatdeath_sem_name_common, i)))
 		return (NULL);
 	if (philo_sem_open(&kant->eatdeath_sem, sem_name, 0))
 		return (NULL);
 	free(sem_name);
-	if (!(sem_name = form_sem_name(finished_eat_sem_name_common, i)))
+	if (!(sem_name = form_sem_name(g_finished_eat_sem_name_common, i)))
 		return (NULL);
 	if (philo_sem_open(&kant->finished_eat, sem_name, 0))
 		return (NULL);
@@ -65,13 +63,13 @@ static int				party_init(t_philosopher **party, t_args *arg,
 	sem_t			*simulation_sem;
 	int				i;
 
-	if (philo_sem_open(&say_sem, say_sem_name, 1))
+	if (philo_sem_open(&say_sem, g_say_sem_name, 1))
 		return (1);
-	if (philo_sem_open(&forks_sem, forks_sem_name, arg->philos))
+	if (philo_sem_open(&forks_sem, g_forks_sem_name, arg->philos))
 		return (1);
-	if (philo_sem_open(&servant_sem, servant_sem_name, arg->philos / 2))
+	if (philo_sem_open(&servant_sem, g_servant_sem_name, arg->philos / 2))
 		return (1);
-	if (philo_sem_open(&simulation_sem, simulation_sem_name, 0))
+	if (philo_sem_open(&simulation_sem, g_simulation_sem_name, 0))
 		return (1);
 	i = -1;
 	while (++i < arg->philos)

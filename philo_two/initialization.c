@@ -6,16 +6,16 @@
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 18:36:27 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/02 18:36:29 by matrus           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:37:51 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_two.h"
 
-const char				*forks_sem_name = "philo_forks";
-const char				*say_sem_name = "philo_say";
-const char				*eatdeath_sem_name_common = "philo_eatdeath";
-const char				*servant_sem_name = "philo_servant";
+const char				*g_forks_sem_name = "philo_forks";
+const char				*g_say_sem_name = "philo_say";
+const char				*g_eatdeath_sem_name_common = "philo_eatdeath";
+const char				*g_servant_sem_name = "philo_servant";
 
 static t_philosopher	*philosopher_init(t_args *arg, int i,
 															time_t *simulation)
@@ -24,7 +24,7 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	char			*eatdeath_sem_name;
 
 	if (!(eatdeath_sem_name = (char*)malloc(sizeof(char) *
-		(ft_strlen(eatdeath_sem_name_common) + ft_ilen(i) + 1))))
+		(ft_strlen(g_eatdeath_sem_name_common) + ft_ilen(i) + 1))))
 		return (NULL);
 	if (!(kant = (t_philosopher*)malloc(sizeof(t_philosopher))))
 		return (NULL);
@@ -35,12 +35,13 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	kant->time_sleep = arg->time_sleep * 1000;
 	kant->time_to_die = arg->time_die * 1000;
 	kant->count_eat = 0;
+	kant->is_ready = 0;
 	kant->eat = phil_eat;
 	kant->sleep = phil_sleep;
-	kant->say = phil_say; // TODO: init philo is ready
+	kant->say = phil_say;
 	kant->take_fork = phil_take_fork;
 	kant->drop_forks = phil_drop_forks;
-	form_eatdeath_sem_name(eatdeath_sem_name, eatdeath_sem_name_common, i);
+	form_eatdeath_sem_name(eatdeath_sem_name, g_eatdeath_sem_name_common, i);
 	if (philo_sem_open(&kant->eatdeath_sem, eatdeath_sem_name, 0))
 		return (NULL);
 	free(eatdeath_sem_name);
@@ -55,11 +56,11 @@ static int				party_init(t_philosopher **party, t_args *arg,
 	sem_t			*servant_sem;
 	int				i;
 
-	if (philo_sem_open(&say_sem, say_sem_name, 1))
+	if (philo_sem_open(&say_sem, g_say_sem_name, 1))
 		return (1);
-	if (philo_sem_open(&forks_sem, forks_sem_name, arg->philos))
+	if (philo_sem_open(&forks_sem, g_forks_sem_name, arg->philos))
 		return (1);
-	if (philo_sem_open(&servant_sem, servant_sem_name, arg->philos / 2))
+	if (philo_sem_open(&servant_sem, g_servant_sem_name, arg->philos / 2))
 		return (1);
 	i = -1;
 	while (++i < arg->philos)

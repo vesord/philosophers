@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_three.h                                        :+:      :+:    :+:   */
+/*   philo_three.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 14:31:29 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/02 14:31:33 by matrus           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:45:27 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -21,7 +21,6 @@
 # include <errno.h>
 # include <signal.h>
 # include <sys/time.h>
-
 
 enum			e_phrases
 {

@@ -6,14 +6,11 @@
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 17:25:48 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/03 17:48:21 by matrus           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:35:03 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_two.h"
-
-//
-#include <stdio.h>
 
 static void	actions(t_philosopher *kopernic)
 {

@@ -6,7 +6,7 @@
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 15:15:21 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/02 15:15:22 by matrus           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:33:21 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ static void	control_simulation(t_philosopher **party, t_args *arg,
 	}
 }
 
-#include <stdio.h>
-
 int			main_thread(t_args *arg)
 {
 	t_philosopher	**party;
@@ -96,14 +94,6 @@ int			main_thread(t_args *arg)
 			return (1);
 	simulation = get_timestamp();
 	control_simulation(party, arg, &simulation);
-
-	printf("\n\n");
-	i = -1;
-	while (++i < arg->philos)
-	{
-		printf("Philo %i has eaten %i times\n", party[i]->num, party[i]->count_eat);
-	}
-
 	clear_restaurant(party, arg->philos);
 	return (0);
 }

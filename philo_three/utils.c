@@ -6,13 +6,13 @@
 /*   By: matrus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 14:38:18 by matrus            #+#    #+#             */
-/*   Updated: 2020/10/02 14:38:20 by matrus           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:44:24 by matrus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
 
-time_t		get_timestamp(void)
+time_t	get_timestamp(void)
 {
 	struct timeval			t;
 
@@ -20,7 +20,7 @@ time_t		get_timestamp(void)
 	return (t.tv_sec * 1000000 + t.tv_usec);
 }
 
-int			ft_ilen(int nb)
+int		ft_ilen(int nb)
 {
 	if (nb < 0)
 	{
@@ -46,7 +46,7 @@ long	ft_pow(long a, long n)
 	return (res);
 }
 
-int			ft_strlen(const char *str)
+int		ft_strlen(const char *str)
 {
 	const char *beg;
 
@@ -56,7 +56,7 @@ int			ft_strlen(const char *str)
 	return ((int)(str - beg));
 }
 
-void		form_say_string(char *dst, time_t ts, int num, const char *phrase)
+void	form_say_string(char *dst, time_t ts, int num, const char *phrase)
 {
 	int i;
 	int num_len;
