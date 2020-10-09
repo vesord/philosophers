@@ -37,7 +37,7 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	kant->count_eat = 0;
 	kant->eat = phil_eat;
 	kant->sleep = phil_sleep;
-	kant->say = phil_say;
+	kant->say = phil_say; // TODO: init philo is ready
 	kant->take_fork = phil_take_fork;
 	kant->drop_forks = phil_drop_forks;
 	form_eatdeath_sem_name(eatdeath_sem_name, eatdeath_sem_name_common, i);
