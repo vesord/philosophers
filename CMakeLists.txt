@@ -24,3 +24,14 @@ add_executable(philosophers_2
         philo_two/phil_function.c
         philo_two/philo_thread.c
         philo_two/utils2.c)
+
+add_executable(philosophers_3
+        philo_three/philo_three.h
+        philo_three/philo_three.c
+        philo_three/utils.c
+        philo_three/set_arg.c
+        philo_three/main_thread.c
+        philo_three/initialization.c
+        philo_three/phil_function.c
+        philo_three/philo_thread.c
+        philo_three/utils2.c)
