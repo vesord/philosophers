@@ -42,12 +42,17 @@ void	ft_putnbr_fd(long n, int fd)
 	ft_putchar_fd(n % 10 + '0', fd);
 }
 
-void	form_eatdeath_sem_name(char *dst, const char *common_part, int num)
+char	*form_sem_name(const char *common_part, int num)
 {
-	int i;
-	int num_len;
-	int tmp;
+	int		i;
+	int		num_len;
+	int		tmp;
+	char	*dst;
 
+	dst = (char*)malloc(sizeof(char) *
+						(ft_strlen(common_part) + ft_ilen(num) + 1));
+	if (!dst)
+		return (NULL);
 	i = -1;
 	while (common_part[++i])
 		dst[i] = common_part[i];
@@ -57,6 +62,7 @@ void	form_eatdeath_sem_name(char *dst, const char *common_part, int num)
 	while (++i < tmp + num_len)
 		dst[i] = (num / ft_pow(10, tmp - 1 + num_len - i)) % 10 + '0';
 	dst[i] = '\0';
+	return (dst);
 }
 
 int		philo_sem_open(sem_t **dst, const char *name, int value)

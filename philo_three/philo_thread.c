@@ -34,7 +34,11 @@ void		philo_process(void *arg)
 
 	dekart = (t_philosopher*)arg;
 	if (pthread_create(&dekart->deathcheck_id, NULL, deathcheck_thread, dekart))
-		exit(1); // TODO: SAY_DEAD
+	{
+		write(2, "FATAL: can not thread inside process. Exiting...\n", 49);
+		sem_post(dekart->simulation_sem);
+		exit(1);
+	}
 	while (!*dekart->simulation)
 		;
 	dekart->last_eat_time = get_timestamp();

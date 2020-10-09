@@ -86,8 +86,7 @@ void			form_say_string(char *dst, time_t ts, int num,
 int				ft_strlen(const char *str);
 void			ft_usleep(time_t mcs);
 long			ft_pow(long a, long n);
-void			form_eatdeath_sem_name(char *dst, const char *common_part,
-																	int num);
+char			*form_sem_name(const char *common_part, int num);
 void			ft_putnbr_fd(long n, int fd);
 void			ft_putchar_fd(char c, int fd);
 int				philo_sem_open(sem_t **dst, const char *name, int value);

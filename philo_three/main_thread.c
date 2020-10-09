@@ -28,6 +28,7 @@ static void	clear_restaurant(t_philosopher **party, int count)
 {
 	int	i;
 
+	sem_wait(party[0]->simulation_sem);
 	killing(party, count);
 	i = -1;
 	while (++i < count)
@@ -95,7 +96,6 @@ int			main_thread(t_args *arg)
 		else if (party[i]->philo_pid == 0)
 			philo_process(party[i]);
 	}
-	sem_wait(party[0]->simulation_sem);
 	clear_restaurant(party, arg->philos);
 	return (0);
 }
