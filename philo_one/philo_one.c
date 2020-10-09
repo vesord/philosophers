@@ -20,13 +20,11 @@ int		main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 	{
 		write(2, "Error. Wrong arguments.\n", 24);
-		print_help();
 		return (1);
 	}
 	else if (set_arg(&arg, argc, argv))
 	{
 		write(2, "Error. Wrong arguments.\n", 24);
-		print_help();
 		return (1);
 	}
 	else if (arg.eat_count != 0 && main_thread(&arg))
@@ -35,9 +33,4 @@ int		main(int argc, char **argv)
 		return (1);
 	}
 	return (0);
-}
-
-void	print_help(void)
-{
-	write(1, "don't forget about help!:)\n", 27);
 }

@@ -31,13 +31,8 @@ int		main(int argc, char **argv)
 	}
 	else if (arg.eat_count != 0 && main_thread(&arg))
 	{
-		write(2, "Error. Something in threading went wrong. :(\n", 45);
+		write(2, "Error. Something in forking went wrong. :(\n", 45);
 		return (1);
 	}
 	return (0);
-}
-
-void	print_help(void)
-{
-	write(1, "don't forget about help!:)\n", 27);
 }

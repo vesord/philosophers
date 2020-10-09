@@ -83,8 +83,6 @@ void			phil_drop_forks(t_philosopher *self);
 void			philo_process(void *arg);
 void			*deathcheck_thread(void *arg);
 
-void			print_help();
-
 time_t			get_timestamp();
 int				ft_ilen(int nb);
 void			form_say_string(char *dst, time_t ts, int num,
