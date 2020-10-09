@@ -29,7 +29,6 @@ void	phil_eat(t_philosopher *self)
 		return ;
 	sem_wait(self->eatdeath_sem);
 	self->last_eat_time = get_timestamp();
-	self->count_eat++;
 	sem_post(self->eatdeath_sem);
 	if (self->need_to_eat_times >= 0 &&
 		self->count_eat >= self->need_to_eat_times &&
@@ -39,6 +38,7 @@ void	phil_eat(t_philosopher *self)
 		finished_eat = !finished_eat;
 	}
 	ft_usleep(self->time_eat);
+	self->count_eat++;
 }
 
 void	phil_sleep(t_philosopher *self)

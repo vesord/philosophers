@@ -27,9 +27,9 @@ void	phil_eat(t_philosopher *self)
 		return ;
 	pthread_mutex_lock(self->eatdeath_mutex);
 	self->last_eat_time = get_timestamp();
-	self->count_eat++;
 	pthread_mutex_unlock(self->eatdeath_mutex);
 	ft_usleep(self->time_eat);
+	self->count_eat++;
 }
 
 void	phil_sleep(t_philosopher *self)

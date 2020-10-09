@@ -61,7 +61,7 @@ static void	control_simulation(t_philosopher **party, t_args *arg,
 		i = -1;
 		while (*simulation && ++i < arg->philos)
 		{
-			if (arg->eat_count && party[i]->count_eat >= arg->eat_count)
+			if (arg->eat_count >= 0 && party[i]->count_eat >= arg->eat_count)
 				finished_eat++;
 		}
 		if (finished_eat == arg->philos)
