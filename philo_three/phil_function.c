@@ -23,12 +23,21 @@ static const char	*g_phrases[] =
 
 void	phil_eat(t_philosopher *self)
 {
+	static int finished_eat;
+
 	if (!*self->simulation)
 		return ;
 	sem_wait(self->eatdeath_sem);
 	self->last_eat_time = get_timestamp();
 	self->count_eat++;
 	sem_post(self->eatdeath_sem);
+	if (self->need_to_eat_times >= 0 &&
+		self->count_eat >= self->need_to_eat_times &&
+		!finished_eat)
+	{
+		sem_post(self->finished_eat);
+		finished_eat = !finished_eat;
+	}
 	ft_usleep(self->time_eat);
 }
 

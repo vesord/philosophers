@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo_three.h"
-//
-#include <stdio.h>
-
 
 static void	killing(t_philosopher **party, int count)
 {
@@ -44,25 +41,24 @@ static void	clear_restaurant(t_philosopher **party, int count)
 	free(party);
 }
 
-//static void	control_simulation(t_philosopher **party, t_args *arg,
-//															time_t *simulation)
-//{
-//	int		i;
-//	int		finished_eat;
-//
-//	while (*simulation)
-//	{
-//		finished_eat = 0;
-//		i = -1;
-//		while (*simulation && ++i < arg->philos)
-//		{
-//			if (arg->eat_count && party[i]->count_eat >= arg->eat_count)
-//				finished_eat++;
-//		}
-//		if (finished_eat == arg->philos)
-//			*simulation = 0;
-//	}
-//}
+static void	*control_simulation(void *arg)
+{
+	int				i;
+	int				philo_count;
+	t_philosopher	**party;
+
+	party = (t_philosopher**)arg;
+	philo_count = party[0]->philos;
+	i = 0;
+	while (i < philo_count)
+	{
+		sem_wait(party[i]->finished_eat);
+		i++;
+	}
+	sem_wait(party[0]->say_sem);
+	sem_post(party[0]->simulation_sem);
+	return ((void*)0);
+}
 
 int			error_on_forking(t_philosopher **party, int i)
 {
@@ -79,31 +75,27 @@ int			main_thread(t_args *arg)
 	t_philosopher	**party;
 	time_t			simulation;
 	int				i;
+	pthread_t		tid;
 
 	party = NULL;
 	if (!(party = initialization(arg, &simulation)))
 		return (1);
-	i = -1;
 	simulation = 0;
-
-	// create thread for watching eat count
-//	control_simulation(party, arg, &simulation);
-		// wait say_sem in the end
-
+	if (arg->eat_count >= 0)
+	{
+		pthread_create(&tid, NULL, control_simulation, party);
+		pthread_detach(tid);
+	}
+	i = -1;
 	while (++i < arg->philos)
 	{
-		// do forks instead threading
 		party[i]->philo_pid = fork();
 		if (party[i]->philo_pid < 0)
 			return (error_on_forking(party, i));
 		else if (party[i]->philo_pid == 0)
 			philo_process(party[i]);
 	}
-
-	// wait end_simulation_sem
 	sem_wait(party[0]->simulation_sem);
-
-	// kill processes cos they're all waiting to print smth
 	clear_restaurant(party, arg->philos);
 	return (0);
 }

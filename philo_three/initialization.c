@@ -15,18 +15,18 @@
 const char				*forks_sem_name = "philo_forks";
 const char				*say_sem_name = "philo_say";
 const char				*eatdeath_sem_name_common = "philo_eatdeath";
+const char				*finished_eat_sem_name_common = "philo_finished_eat";
 const char				*servant_sem_name = "philo_servant";
 const char				*simulation_sem_name = "philo_end";
+
+
 
 static t_philosopher	*philosopher_init(t_args *arg, int i,
 															time_t *simulation)
 {
 	t_philosopher	*kant;
-	char			*eatdeath_sem_name;
+	char			*sem_name;
 
-	if (!(eatdeath_sem_name = (char*)malloc(sizeof(char) *
-		(ft_strlen(eatdeath_sem_name_common) + ft_ilen(i) + 1))))
-		return (NULL);
 	if (!(kant = (t_philosopher*)malloc(sizeof(t_philosopher))))
 		return (NULL);
 	kant->num = i + 1;
@@ -36,15 +36,23 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	kant->time_sleep = arg->time_sleep * 1000;
 	kant->time_to_die = arg->time_die * 1000;
 	kant->count_eat = 0;
+	kant->need_to_eat_times = arg->eat_count;
+	kant->philos = arg->philos;
 	kant->eat = phil_eat;
 	kant->sleep = phil_sleep;
 	kant->say = phil_say;
 	kant->take_fork = phil_take_fork;
 	kant->drop_forks = phil_drop_forks;
-	form_eatdeath_sem_name(eatdeath_sem_name, eatdeath_sem_name_common, i);
-	if (philo_sem_open(&kant->eatdeath_sem, eatdeath_sem_name, 0))
+	if (!(sem_name = form_sem_name(eatdeath_sem_name_common, i)))
 		return (NULL);
-	free(eatdeath_sem_name);
+	if (philo_sem_open(&kant->eatdeath_sem, sem_name, 0))
+		return (NULL);
+	free(sem_name);
+	if (!(sem_name = form_sem_name(finished_eat_sem_name_common, i)))
+		return (NULL);
+	if (philo_sem_open(&kant->finished_eat, sem_name, 0))
+		return (NULL);
+	free(sem_name);
 	return (kant);
 }
 
