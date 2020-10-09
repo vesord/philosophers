@@ -69,13 +69,11 @@ static int				party_init(t_philosopher **party, t_args *arg,
 	sem_t			*simulation_sem;
 	int				i;
 
-	if (philo_sem_open(&say_sem, g_say_sem_name, 1))
-		return (1);
-	if (philo_sem_open(&forks_sem, g_forks_sem_name, arg->philos))
-		return (1);
-	if (philo_sem_open(&servant_sem, g_servant_sem_name, arg->philos / 2))
-		return (1);
-	if (philo_sem_open(&simulation_sem, g_simulation_sem_name, 0))
+	if (philo_sem_open(&say_sem, g_say_sem_name, 1) ||
+		philo_sem_open(&forks_sem, g_forks_sem_name, arg->philos) ||
+		philo_sem_open(&servant_sem, g_servant_sem_name,
+								arg->philos / 2 ? arg->philos / 2 : 1) ||
+		philo_sem_open(&simulation_sem, g_simulation_sem_name, 0))
 		return (1);
 	i = -1;
 	while (++i < arg->philos)
