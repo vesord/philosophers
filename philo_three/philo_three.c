@@ -36,3 +36,11 @@ int		main(int argc, char **argv)
 	}
 	return (0);
 }
+
+void	print_help(void)
+{
+	write(1, "\nUSAGE\n", 7);
+	write(1, "./philo_three number_of_philosophers ", 37);
+	write(1, "time_to_die time_to_eat time_to_sleep ", 38);
+	write(1, "[number_of_times_each_philosopher_must_eat]\n", 44);
+}
