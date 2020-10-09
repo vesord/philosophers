@@ -26,6 +26,7 @@ static t_philosopher	*philosopher_init(t_args *arg, int i,
 	kant->time_sleep = arg->time_sleep * 1000;
 	kant->time_to_die = arg->time_die * 1000;
 	kant->count_eat = 0;
+	kant->is_ready = 0;
 	kant->eat = phil_eat;
 	kant->sleep = phil_sleep;
 	kant->say = phil_say;
